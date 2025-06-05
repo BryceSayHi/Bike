@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Tomb of the Mask</title>
+  <style>
+    html, body {
+      margin: 0;
+      padding: 0;
+      overflow: hidden;
+      height: 100%;
+      background: black;
+    }
+    #unityContainer {
+      width: 100vw;
+      height: 100vh;
+      display: block;
+    }
+  </style>
+  <script src="UnityLoader.js"></script>
+</head>
+<body>
+  <div id="unityContainer"></div>
+  <script>
+    UnityLoader.instantiate("unityContainer", "WebGL.json");
+  </script>
+</body>
+</html>

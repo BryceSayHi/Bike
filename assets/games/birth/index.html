@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en-us">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <title>Unity WebGL Player | Rolling Sky</title>
+  <link rel="shortcut icon" href="TemplateData/favicon.ico">
+  <link rel="stylesheet" href="TemplateData/style.css">
+  <script src="TemplateData/UnityProgress.js"></script>
+  <script src="Build/UnityLoader.js"></script>
+  <style>
+    :root {
+      --primary-bg: #222;
+      --secondary-bg: #333;
+      --text-color: #fff;
+      --accent-color: #f00;
+      --button-bg: #444;
+    }
+    html, body {
+      margin: 0; padding: 0;
+      width: 100%; height: 100%;
+      background: var(--primary-bg);
+      overflow: hidden;
+      font-family: Arial, sans-serif;
+    }
+    /* overlay to hide content initially */
+    #overlay {
+      position: fixed; top: 0; left: 0;
+      width: 100%; height: 100%;
+      background: var(--primary-bg);
+      z-index: 2000;
+    }
+    .webgl-wrapper {
+      width: 100vw; height: 100vh;
+      background: var(--secondary-bg);
+      display: flex; justify-content: center; align-items: center;
+    }
+    #gameContainer {
+      background: var(--primary-bg);
+      display: flex; justify-content: center; align-items: center;
+    }
+    .aspect-locked canvas {
+      width: auto !important;
+      height: 100% !important;
+      aspect-ratio: 9/16;
+      max-width: calc(100vh * 9/16);
+      background: var(--primary-bg);
+    }
+    .aspect-unlocked canvas {
+      width: 100vw !important;
+      height: 100vh !important;
+    }
+    .settings-button {
+      position: fixed; top: 10px; right: 15px;
+      background: none; border: none; cursor: pointer;
+      color: var(--text-color); font-size: 24px; z-index: 1001;
+      display: none; /* hidden initially */
+    }
+    .settings-menu {
+      display: none; position: fixed; top: 50px; right: 15px;
+      background: var(--secondary-bg); color: var(--text-color);
+      padding: 12px; border-radius: 8px; box-shadow: 0 0 10px rgba(0,0,0,0.5);
+      z-index: 1000; min-width: 200px;
+    }
+    .toggle-container {
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 10px; background: var(--button-bg);
+      border-radius: 8px; margin: 5px 0;
+    }
+    .toggle-button {
+      width: 40px; height: 20px;
+      background: var(--text-color); border-radius: 10px;
+      position: relative; cursor: pointer; transition: background 0.3s;
+    }
+    .toggle-button::before {
+      content: ""; position: absolute;
+      width: 18px; height: 18px;
+      background: var(--primary-bg); border-radius: 50%;
+      top: 1px; left: 2px; transition: 0.3s;
+    }
+    .toggle-button.active {
+      background: var(--accent-color);
+    }
+    .toggle-button.active::before {
+      left: 20px; background: var(--text-color);
+    }
+  </style>
+  <script>
+    let gameInstance;
+    let isAspectLocked = true;
+
+    function toggleSettings() {
+      const menu = document.getElementById('settingsMenu');
+      menu.style.display = menu.style.display === 'block' ? 'none' : 'block';
+    }
+
+    function toggleAspect() {
+      const container = document.getElementById('gameContainer');
+      const btn = document.getElementById('toggleBars');
+      if (isAspectLocked) {
+        container.className = 'aspect-unlocked';
+        btn.classList.add('active');
+      } else {
+        container.className = 'aspect-locked';
+        btn.classList.remove('active');
+      }
+      isAspectLocked = !isAspectLocked;
+    }
+
+    window.addEventListener('load', () => {
+      // hide overlay after 5 seconds
+      setTimeout(() => {
+        document.getElementById('overlay').style.display = 'none';
+      }, 5000);
+
+      const container = document.getElementById('gameContainer');
+      container.className = 'aspect-locked';
+
+      // show settings button after 5 seconds
+      setTimeout(() => {
+        document.querySelector('.settings-button').style.display = 'block';
+      }, 5000);
+
+      gameInstance = UnityLoader.instantiate(
+        'gameContainer',
+        'Build/rug.json',
+        {
+          onProgress: (instance, progress) => {
+            UnityProgress(instance, progress);
+            if (progress === 1) {
+              // spaced toggles to force sizing
+              setTimeout(() => { toggleAspect(); }, 500);
+              setTimeout(() => { toggleAspect(); }, 1200);
+            }
+          }
+        }
+      );
+
+      document.addEventListener('click', e => {
+        if (!e.target.closest('.settings-menu') && !e.target.closest('.settings-button')) {
+          document.getElementById('settingsMenu').style.display = 'none';
+        }
+      });
+    });
+  </script>
+</head>
+<body>
+  <!-- initial overlay covers entire screen -->
+  <div id="overlay"></div>
+  <button class="settings-button" onclick="toggleSettings()">⚙️</button>
+  <div class="settings-menu" id="settingsMenu">
+    <div class="toggle-container">
+      <span>Remove Bezels</span>
+      <div id="toggleBars" class="toggle-button" onclick="toggleAspect()"></div>
+    </div>
+  </div>
+  <div class="webgl-wrapper">
+    <div id="gameContainer"></div>
+  </div>
+</body>
+</html>

@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Bike’s Site</title>
+  <style>
+    :root { --accent: #00ffd0; }
+    * { box-sizing: border-box; margin:0; padding:0; }
+    html, body {
+      scrollbar-width: thin;
+      scrollbar-color: var(--accent) transparent;
+      background:#111; color:#fff;
+      font-family:'Segoe UI',sans-serif;
+      overflow-x:hidden; overflow-y:auto;
+      height:100%;
+    }
+    .navbar {
+      display:flex; align-items:center;
+      padding:1rem 2rem; background:rgba(17,17,17,0.9);
+      position:sticky; top:0; z-index:10;
+      box-shadow:0 4px 15px var(--accent);
+    }
+    .navbar h1 { color:var(--accent); font-size:1.5rem; }
+    .search-bar {
+      margin-left:auto; width:240px;
+      padding:.5rem 1rem; background:#1f1f1f;
+      border:1px solid var(--accent); border-radius:8px;
+      color:#fff;
+    }
+    .settings-panel {
+      padding:1rem; margin:1rem;
+      background:#1a1a1a; border:1px solid var(--accent);
+      border-radius:8px;
+    }
+    .settings-panel label,
+    .settings-panel button {
+      display:block; width:100%;
+      margin:.5rem 0; padding:.5rem;
+      background:var(--accent); color:#000;
+      border:none; border-radius:6px;
+      cursor:pointer; text-align:center;
+    }
+    .settings-panel input[type=file] { display:none; }
+  </style>
+</head>
+<body>
+  <div class="navbar">
+    <h1>Bike’s Site</h1>
+    <input id="searchInput" class="search-bar" placeholder="Search games…" />
+  </div>
+
+  <div class="settings-panel">
+    <label for="accentColor">Accent Color</label>
+    <input type="color" id="accentColor" value="#00ffd0" />
+    <button id="exportBtn">Export All Saves (with debug)</button>
+    <input type="file" id="importFile" accept=".json" />
+    <label for="importFile">Import All Saves</label>
+    <pre id="debugLog" style="color:#0f0; background:#000; padding:.5rem; max-height:200px; overflow:auto;"></pre>
+  </div>
+
+  <script>
+    // Utility to log to our debug pane
+    function debug(msg) {
+      const p = document.getElementById('debugLog');
+      p.textContent += msg + '\n';
+      console.log(msg);
+    }
+
+    // Accent color
+    const accentPicker = document.getElementById('accentColor');
+    const saved = localStorage.getItem('accentColor');
+    if (saved) {
+      document.documentElement.style.setProperty('--accent', saved);
+      accentPicker.value = saved;
+    }
+    accentPicker.addEventListener('input', e => {
+      localStorage.setItem('accentColor', e.target.value);
+      document.documentElement.style.setProperty('--accent', e.target.value);
+    });
+
+    // Export all IndexedDB (unfiltered)
+    async function exportAllIDB() {
+      debug('Listing all databases via indexedDB.databases()…');
+      let dbs = [];
+      if (indexedDB.databases) {
+        try {
+          dbs = (await indexedDB.databases()).map(d=>d.name).filter(n=>n);
+        } catch(err) {
+          debug('indexedDB.databases() error: ' + err);
+        }
+      }
+      debug('→ Found DBs: ' + JSON.stringify(dbs));
+      const result = {};
+      for (let name of dbs) {
+        result[name] = {};
+        debug('Opening DB: ' + name);
+        try {
+          const db = await new Promise((res,rej) => {
+            const rq = indexedDB.open(name);
+            rq.onsuccess = () => res(rq.result);
+            rq.onerror   = () => rej(rq.error);
+          });
+          for (let store of db.objectStoreNames) {
+            result[name][store] = [];
+            const tx = db.transaction(store,'readonly');
+            const os = tx.objectStore(store);
+            await new Promise(done => {
+              os.openCursor().onsuccess = e => {
+                const c = e.target.result;
+                if (c) {
+                  result[name][store].push({key:c.key, value:c.value});
+                  c.continue();
+                } else {
+                  done();
+                }
+              };
+            });
+            await new Promise(r=>setTimeout(r,0));
+            debug(`  → ${name}.${store}: ${result[name][store].length} records`);
+          }
+          db.close();
+        } catch(err) {
+          debug('Failed DB ' + name + ': ' + err);
+        }
+        await new Promise(r=>setTimeout(r,0));
+      }
+      return result;
+    }
+
+    document.getElementById('exportBtn').addEventListener('click', async ()=>{
+      debug('--- EXPORT START ---');
+      // cookies
+      const cookies = {};
+      document.cookie.split(/;\s*/).forEach(pair=>{
+        const [k,v] = pair.split('=');
+        if (k) cookies[decodeURIComponent(k)] = decodeURIComponent(v||'');
+      });
+      debug('Cookies: ' + JSON.stringify(cookies));
+
+      // localStorage
+      const local = {};
+      for (let i=0;i<localStorage.length;i++){
+        const k = localStorage.key(i);
+        local[k]=localStorage.getItem(k);
+      }
+      debug('localStorage keys: ' + Object.keys(local).join(', '));
+
+      // sessionStorage
+      const session = {};
+      for (let i=0;i<sessionStorage.length;i++){
+        const k = sessionStorage.key(i);
+        session[k]=sessionStorage.getItem(k);
+      }
+      debug('sessionStorage keys: ' + Object.keys(session).join(', '));
+
+      // IndexedDB
+      const idb = await exportAllIDB();
+      debug('IndexedDB export done, DB count: ' + Object.keys(idb).length);
+
+      const blob = new Blob([JSON.stringify({
+        cookies, localStorage: local,
+        sessionStorage: session,
+        indexedDB: idb
+      },null,2)], {type:'application/json'});
+
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url; a.download='site-debug-save.json';
+      a.click();
+      URL.revokeObjectURL(url);
+      debug('Download triggered');
+      debug('--- EXPORT END ---');
+    });
+
+    document.getElementById('importFile').addEventListener('change', async e=>{
+      const file = e.target.files[0];
+      if(!file) return debug('No file chosen');
+      debug('Reading import file…');
+      const text = await file.text();
+      let data;
+      try { data = JSON.parse(text); }
+      catch(err) {
+        debug('JSON parse error: ' + err);
+        return alert('Invalid JSON');
+      }
+
+      // restore cookies
+      for (let k in data.cookies||{}) {
+        document.cookie = `${encodeURIComponent(k)}=${encodeURIComponent(data.cookies[k])}; path=/`;
+      }
+      debug('Restored cookies');
+
+      // restore localStorage
+      for (let k in data.localStorage||{}) {
+        localStorage.setItem(k, data.localStorage[k]);
+      }
+      debug('Restored localStorage');
+
+      // restore sessionStorage
+      for (let k in data.sessionStorage||{}) {
+        sessionStorage.setItem(k, data.sessionStorage[k]);
+      }
+      debug('Restored sessionStorage');
+
+      // restore IndexedDB
+      if (data.indexedDB) {
+        debug('Importing IndexedDB…');
+        for (let name in data.indexedDB) {
+          debug(' → DB: ' + name);
+          try {
+            const rq = indexedDB.open(name);
+            rq.onupgradeneeded = e => {
+              const db=e.target.result;
+              for (let store in data.indexedDB[name]) {
+                if (!db.objectStoreNames.contains(store)) {
+                  db.createObjectStore(store);
+                }
+              }
+            };
+            const db = await new Promise((res,rej)=>{
+              rq.onsuccess = ()=>res(rq.result);
+              rq.onerror   = ()=>rej(rq.error);
+            });
+            const tx = db.transaction(Object.keys(data.indexedDB[name]),'readwrite');
+            for (let store in data.indexedDB[name]) {
+              const os = tx.objectStore(store);
+              for (let {key,value} of data.indexedDB[name][store]) {
+                os.put(value, key);
+              }
+            }
+            await new Promise(r=>tx.oncomplete=r());
+            db.close();
+            debug('   imported ' + name);
+          } catch(err) {
+            debug('   failed ' + name + ': ' + err);
+          }
+        }
+      }
+
+      debug('--- IMPORT COMPLETE ---');
+      alert('Import done. Reload page to apply.');
+    });
+  </script>
+</body>
+</html>
