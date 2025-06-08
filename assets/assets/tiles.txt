@@ -1,0 +1,249 @@
+﻿[
+  {
+    "title": "Eaglercraft 1.12.2",
+    "info": "the newest version of eaglercraft i could find",
+    "img": "assets/images/eaglercraftx.txt",
+    "href": "assets/games/EaglercraftX/EaglercraftX-Client-main/index.html"
+  },
+  {
+    "title": "Cookie Clicker",
+    "info": "click",
+    "img": "assets/images/order_not_the_rat.txt",
+    "href": "assets/games/COOKIR CLAK/ORDER NOT THE RAT/index.html"
+  },
+  {
+    "title": "Fancade",
+    "info": "ports of fancade games",
+    "img": "assets/images/deepfrieddogknuckle.txt",
+    "series": [
+      { "title": "Drive Mad", "href": "assets/games/drive-mad/index.html" },
+      { "title": "Monster Tracks", "href": "assets/games/monster-tracks/index.html" },
+      { "title": "Stacktris", "href": "assets/games/Stacktris/index.html" },
+      { "title": "Recoil", "href": "assets/games/recoil/index.html" },
+      { "title": "Gobble", "href": "assets/games/gobble/index.html" }
+    ]
+  },
+  {
+    "title": "Sonic",
+    "info": "ok die",
+    "img": "assets/images/ugly.txt",
+    "series": [
+      { "title": "Sonic 1", "href": "assets/games/sonic1/index.html" },
+      { "title": "Sonic 2", "href": "assets/games/sonic2/index.html" }
+    ]
+  },
+  {
+    "title": "Run 3",
+    "info": "jog",
+    "img": "assets/images/run3.txt",
+    "href": "assets/games/run3/index.html"
+  },
+  {
+    "title": "Slope",
+    "info": "ball go fast",
+    "img": "assets/images/slope.txt",
+    "series": [
+      { "title": "Slope", "href": "assets/games/Slope.html" },
+      { "title": "Slope 3", "href": "assets/games/slope3/outdex.html" }
+    ]
+  },
+  {
+    "title": "Rolling Sky v1.0",
+    "info": "holy fucking shit this took a while to port",
+    "img": "assets/images/birth.txt",
+    "href": "assets/games/birth/index.html"
+  },
+  {
+    "title": "Vex",
+    "info": "uhh parkour",
+    "img": "assets/images/vex7.txt",
+    "series": [
+      { "title": "Vex 3", "href": "assets/games/vex3/game.html" },
+      { "title": "Vex 4", "href": "assets/games/vex4/game.html" },
+      { "title": "Vex 5", "href": "assets/games/vex5/game.html" },
+      { "title": "Vex 6", "href": "assets/games/vex6/game.html" },
+      { "title": "Vex 7", "href": "assets/games/vex7/game.html" },
+      { "title": "Vex 8", "href": "assets/games/vex8/game.html" }
+    ]
+  },
+  {
+    "title": "Moto X3M",
+    "info": "bike game",
+    "img": "assets/images/moto-x3m.txt",
+    "series": [
+      { "title": "Moto X3M", "href": "assets/games/motox3m/1/index.html" },
+      { "title": "Moto X3M 2", "href": "assets/games/motox3m/2/index.html" },
+      { "title": "Moto X3M Winter", "href": "assets/games/motox3m/4-winter/index.html" },
+      { "title": "Moto X3M Pool Party", "href": "assets/games/motox3m/5-pool-party/index.html" },
+      { "title": "Moto X3M Spooky Land", "href": "assets/games/motox3m/6-spooky-land/index.html" }
+    ]
+  },
+  {
+    "title": "Undertale",
+    "info": "big house",
+    "img": "assets/images/reekingdog.txt",
+    "href": "assets/games/undertale/index.html"
+  },
+  {
+    "title": "Drift Boss",
+    "info": "drift vro",
+    "img": "assets/images/driftfromfortnite.txt",
+    "href": "assets/games/driftboss-main/driftboss-main/index.html"
+  },
+  {
+    "title": "Balatro",
+    "info": "poker with extra steps",
+    "img": "assets/images/balatro.txt",
+    "href": "assets/games/balatro/index.html"
+  },
+  {
+    "title": "Retro Bowl",
+    "info": "feets ball",
+    "img": "assets/images/retro-bowl.txt",
+    "href": "assets/games/retro-bowl/index.html"
+  },
+  {
+    "title": "Endless Truck",
+    "info": "a little broken so...",
+    "img": "assets/images/endless.txt",
+    "href": "assets/games/EndlessTruck-gh-pages/EndlessTruck-gh-pages/index.html"
+  },
+  {
+    "title": "Ultrakill – Demo",
+    "info": "a broken unity web gl port of ultrakill",
+    "img": "assets/images/ultrakill.txt",
+    "href": "assets/games/ultrakill/index.html"
+  },
+  {
+    "title": "PolyTrack",
+    "info": "uhh car",
+    "img": "assets/images/polytrack-main.txt",
+    "href": "assets/games/polytrack-main/index.html"
+  },
+  {
+    "title": "Hacked 2048",
+    "info": "idk read the title",
+    "img": "assets/images/hacked2048.txt",
+    "href": "assets/games/Hacked2048.html"
+  },
+  {
+    "title": "Monkey Mart",
+    "info": "roblox tycoon ahh game",
+    "img": "assets/images/monkeymart.txt",
+    "href": "assets/games/MonkeyMart.html"
+  },
+  {
+    "title": "Bloxorz",
+    "info": "old flash puzzle game i found",
+    "img": "assets/images/bloxors.txt",
+    "href": "assets/games/Bloxors/bloxors.html"
+  },
+  {
+    "title": "xx142-b2exe",
+    "info": "idfk why this is even here",
+    "img": "assets/images/xx142-b2exe.txt",
+    "href": "assets/games/xx142-b2exe/index.html"
+  },
+  {
+    "title": "Hextris",
+    "info": "kinda cool thing ig",
+    "img": "assets/images/hextris.txt",
+    "href": "assets/games/Hextris/Hextris/hextris-gh-pages/index.html"
+  },
+  {
+    "title": "Adventure Capitalist",
+    "info": "lemon",
+    "img": "assets/images/joey.txt",
+    "href": "assets/games/AdventureCapitalist/index.html"
+  },
+  {
+    "title": "Basketball Legends 2020",
+    "info": "lebron",
+    "img": "assets/images/grug.txt",
+    "href": "assets/games/BasketballLegends/index.html"
+  },
+  {
+    "title": "Burrito Bison",
+    "info": "gummy bear🥀🥀🥀",
+    "img": "assets/images/bison.txt",
+    "href": "assets/games/BurritoBison/index.html"
+  },
+  {
+    "title": "Cannon Basketball 4",
+    "info": "idk its like a fun game",
+    "img": "assets/images/grubhub.txt",
+    "href": "assets/games/CannonBasketball/index.html"
+  },
+  {
+    "title": "Dreadhead Parkour",
+    "info": "deadlocked from geometry dash",
+    "img": "assets/images/f777.txt",
+    "href": "assets/games/DreadheadParkour/index.html"
+  },
+  {
+    "title": "Drift Hunters",
+    "info": "i like actually hate this game but everybody loves it so idk",
+    "img": "assets/images/cargofast.txt",
+    "href": "assets/games/DriftHunters/index.html"
+  },
+  {
+    "title": "Eagle Ride",
+    "info": "this game gave me aids",
+    "img": "assets/images/birdie.txt",
+    "href": "assets/games/EagleRide/index.html"
+  },
+  {
+    "title": "Eggy Car",
+    "info": "egg game",
+    "img": "assets/images/eggy.txt",
+    "href": "assets/games/EggyCar/index.html"
+  },
+  {
+    "title": "G-switch3",
+    "info": "geometry dash ball but as a game",
+    "img": "assets/images/jug.txt",
+    "href": "assets/games/G-SWITCH3/index.html"
+  },
+  {
+    "title": "Gun Spin",
+    "info": "guns shoot y'know",
+    "img": "assets/images/spin.txt",
+    "href": "assets/games/GunSpin/index.html"
+  },
+  {
+    "title": "Stickman Hook",
+    "info": "hook",
+    "img": "assets/images/ploob.txt",
+    "href": "assets/games/StickmanHook/index.html"
+  },
+  {
+    "title": "Stick Merge",
+    "info": "merge gun",
+    "img": "assets/images/t-lube.txt",
+    "href": "assets/games/StickMerge/index.html"
+  },
+  {
+    "title": "Subway Surfers",
+    "info": "globble",
+    "img": "assets/images/steezus.txt",
+    "href": "assets/games/SubwaySurfers/index.html"
+  },
+  {
+    "title": "Super Mario 64",
+    "info": "web port of mario 64, binds are \"enter, z, x\"",
+    "img": "assets/images/hubert.txt",
+    "href": "assets/games/SuperMario64/index.html"
+  },
+  {
+    "title": "Tiny Fishing",
+    "info": "fish",
+    "img": "assets/images/hsif.txt",
+    "href": "assets/games/TinyFishing/index.html"
+  },
+  {
+    "title": "Tomb of the Mask",
+    "info": "idk its a mobile game",
+    "img": "assets/images/david.txt",
+    "href": "assets/games/TombOfTheMask/game.html"
+  }
+]
