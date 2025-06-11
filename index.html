@@ -8,7 +8,7 @@
     :root { --accent: #00ffd0; }
     * { box-sizing: border-box; margin: 0; padding: 0; }
 
-    /* GLOBAL SCROLLBAR */
+    /* GLOBAL SCROLLBAR (2px) */
     html, body {
       scrollbar-width: thin;
       scrollbar-color: var(--accent) transparent;
@@ -121,7 +121,7 @@
       margin-bottom:.5rem;
     }
 
-    /* SERIES MENU */
+    /* SERIES MENU (replaces tile) */
     .series-menu {
       position:absolute; top:0; left:0;
       width:100%; height:100%;
@@ -132,6 +132,8 @@
       z-index:6;
     }
     .series-menu.show { display:flex; }
+
+    /* Opaque header, no accent background */
     .series-menu h3 {
       padding:1rem; margin:0;
       background: rgba(20,20,20,1);
@@ -144,6 +146,7 @@
       cursor:pointer;
       font-size:1.2rem;
     }
+
     .series-menu .list {
       flex:1; overflow-y:auto;
       scrollbar-width: thin;
@@ -159,6 +162,7 @@
       background-color:var(--accent);
       border-radius:1px;
     }
+
     .series-menu .item {
       padding:.75rem 1rem; cursor:pointer;
       transition:background .2s; border-bottom:1px solid rgba(255,255,255,0.1);
@@ -187,20 +191,20 @@
   <div id="gameGrid" class="game-grid"></div>
 
   <script>
-    // PARTICLES
+    // PARTICLES (same as before)…
     const canvas = document.getElementById('particleCanvas'),
           ctx = canvas.getContext('2d');
     let particles = [];
     function resize(){ canvas.width=innerWidth; canvas.height=innerHeight; }
     window.addEventListener('resize',resize); resize();
     function initParticles(){
-      particles = Array.from({length:120},()=>(({
+      particles = Array.from({length:120},()=>({
         x:Math.random()*canvas.width,
         y:Math.random()*canvas.height,
         r:Math.random()*2+1,
         dx:(Math.random()-0.5)*0.4,
         dy:(Math.random()-0.5)*0.4
-      })));
+      }));
     }
     function draw(){
       ctx.clearRect(0,0,canvas.width,canvas.height);
@@ -219,94 +223,94 @@
     initParticles(); draw();
 
     // SETTINGS & ACCENT
-    const SETTINGS_ICON = 'https://cdn.brycesayhi.net/assets/images/settings.txt',
-          settingsBtn = document.getElementById('settingsBtn'),
-          settingsPanel = document.getElementById('settingsPanel'),
-          colorPicker = document.getElementById('accentColor');
+    const SETTINGS_ICON='assets/images/settings.txt',
+          settingsBtn=document.getElementById('settingsBtn'),
+          settingsPanel=document.getElementById('settingsPanel'),
+          colorPicker=document.getElementById('accentColor');
     fetch(SETTINGS_ICON).then(r=>r.text()).then(t=>{
-      settingsBtn.style.backgroundImage = `url(data:image/png;base64,${t.trim()})`;
+      settingsBtn.style.backgroundImage=`url(data:image/png;base64,${t.trim()})`;
     });
-    settingsBtn.addEventListener('click', e=>{
+    settingsBtn.addEventListener('click',e=>{
       e.stopPropagation();
       settingsPanel.style.display = settingsPanel.style.display==='block'?'none':'block';
     });
-    document.addEventListener('click', ()=>{
+    document.addEventListener('click',()=>{
       settingsPanel.style.display='none';
       document.querySelectorAll('.series-menu.show').forEach(m=>m.classList.remove('show'));
     });
     const saved = localStorage.getItem('accentColor');
     if(saved){
-      document.documentElement.style.setProperty('--accent', saved);
+      document.documentElement.style.setProperty('--accent',saved);
       colorPicker.value = saved;
     }
-    colorPicker.addEventListener('input', e=>{
-      document.documentElement.style.setProperty('--accent', e.target.value);
-      localStorage.setItem('accentColor', e.target.value);
+    colorPicker.addEventListener('input',e=>{
+      document.documentElement.style.setProperty('--accent',e.target.value);
+      localStorage.setItem('accentColor',e.target.value);
     });
 
     // LOAD & RENDER TILES
-    const TILES_PATH = 'https://cdn.brycesayhi.net/assets/tiles.txt',
-          grid = document.getElementById('gameGrid'),
-          searchInput = document.getElementById('searchInput');
-    let allGames = [];
+    const TILES_PATH='assets/tiles.txt',
+          grid=document.getElementById('gameGrid'),
+          searchInput=document.getElementById('searchInput');
+    let allGames=[];
     async function loadDataUri(path){
-      const txt = await fetch(path).then(r=>r.text());
-      return 'data:image/png;base64,' + txt.trim();
+      const txt=await fetch(path).then(r=>r.text());
+      return 'data:image/png;base64,'+txt.trim();
     }
     async function loadTiles(){
-      const txt = await fetch(TILES_PATH).then(r=>r.text());
-      allGames = JSON.parse(txt);
+      const txt=await fetch(TILES_PATH).then(r=>r.text());
+      allGames=JSON.parse(txt);
       renderTiles(allGames);
     }
     async function renderTiles(list){
-      grid.innerHTML = '';
+      grid.innerHTML='';
       for(const g of list){
-        const tile = document.createElement('div');
-        tile.className = 'game-tile';
-        const uri = await loadDataUri(g.img);
-        tile.innerHTML = `
+        const tile=document.createElement('div');
+        tile.className='game-tile';
+        const uri=await loadDataUri(g.img);
+        tile.innerHTML=`
           <img class="game-image" src="${uri}" alt="${g.title}">
           <div class="game-content">
             <h2 class="game-title">${g.title}</h2>
             <p class="game-info">${g.info}</p>
           </div>`;
-        if(g.series && g.series.length){
-          const menu = document.createElement('div');
-          menu.className = 'series-menu';
-          menu.innerHTML = `
+        if(g.series&&g.series.length){
+          const menu=document.createElement('div');
+          menu.className='series-menu';
+          menu.innerHTML=`
             <h3><span class="back-arrow">←</span>Series</h3>
             <div class="list"></div>`;
-          const listDiv = menu.querySelector('.list');
+          const listDiv=menu.querySelector('.list');
           g.series.forEach(s=>{
-            const item = document.createElement('div');
-            item.className = 'item'; item.textContent = s.title;
-            item.addEventListener('click', e=>{
+            const item=document.createElement('div');
+            item.className='item'; item.textContent=s.title;
+            item.addEventListener('click',e=>{
               e.stopPropagation();
-              window.location.href = s.href;
+              window.location.href=s.href;
             });
             listDiv.appendChild(item);
           });
-          menu.querySelector('.back-arrow').addEventListener('click', e=>{
+          menu.querySelector('.back-arrow').addEventListener('click',e=>{
             e.stopPropagation();
             menu.classList.remove('show');
           });
           tile.appendChild(menu);
-          tile.addEventListener('click', e=>{
+          tile.addEventListener('click',e=>{
             e.stopPropagation();
             document.querySelectorAll('.series-menu.show')
               .forEach(m=>m.classList.remove('show'));
             menu.classList.toggle('show');
           });
         } else {
-          tile.addEventListener('click', ()=> window.location.href = g.href);
+          tile.addEventListener('click',()=>window.location.href=g.href);
         }
         grid.appendChild(tile);
       }
     }
 
     // PREFIX-ONLY SEARCH
-    searchInput.addEventListener('input', e=>{
-      const q = e.target.value.trim().toLowerCase();
+    searchInput.addEventListener('input',e=>{
+      const q=e.target.value.trim().toLowerCase();
       renderTiles(q
         ? allGames.filter(g=>g.title.toLowerCase().startsWith(q))
         : allGames
