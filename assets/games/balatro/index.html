@@ -1,8 +1,8 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en-us">
   <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-    <meta name="viewport" content="width=device-width,user-scalable=no">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no">
     <title>Balatro</title>
     <link rel="stylesheet" href="style.css">
   </head>
@@ -22,23 +22,27 @@
               resolve(mergedFileUrl);
               return;
             }
-            fetch(fileParts[index]).then((response) => {
-              if (!response.ok) throw new Error('Fetch failed: ' + fileParts[index]);
-              return response.arrayBuffer();
-            }).then((data) => {
-              buffers.push(data);
-              fetchPart(index + 1);
-            }).catch(reject);
+
+            fetch(fileParts[index])
+              .then(res => {
+                if (!res.ok) throw new Error("Failed to fetch " + fileParts[index]);
+                return res.arrayBuffer();
+              })
+              .then(data => {
+                buffers.push(data);
+                fetchPart(index + 1);
+              })
+              .catch(reject);
           }
+
           fetchPart(0);
         });
       }
 
-      function getParts(fileBase, start, end) {
-        const parts = [];
+      function getParts(file, start, end) {
+        let parts = [];
         for (let i = start; i <= end; i++) {
-          // relative filenames in same folder as index.html
-          parts.push(`${fileBase}.part${i}`);
+          parts.push(file + ".part" + i);
         }
         return parts;
       }
@@ -48,9 +52,8 @@
         player.src = "player.js?g=" + encodeURIComponent(url);
         document.body.appendChild(player);
       }).catch(err => {
-        console.error('Could not load parts:', err);
-        document.getElementById('spinner').classList.remove('pending');
-        // show fallback UI if desired
+        console.error("Error loading parts:", err);
+        document.getElementById("spinner").classList.remove("pending");
       });
     </script>
   </body>
