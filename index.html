@@ -1,28 +1,29 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>Bike’s Site</title>
   <style>
-    :root { --accent: #00ffd0; }
+    :root {
+      --accent: #00ffd0;
+      --accent-rgb: 0, 255, 208;
+      --accent-contrast: #000;
+      --muted: #bbb;
+
+      --glow-strong-alpha: 0.45;
+      --glow-medium-alpha: 0.22;
+      --glow-soft-alpha: 0.12;
+    }
     * { box-sizing: border-box; margin: 0; padding: 0; }
 
-    /* GLOBAL SCROLLBAR (2px) */
     html, body {
       scrollbar-width: thin;
       scrollbar-color: var(--accent) transparent;
     }
-    body::-webkit-scrollbar {
-      width: 2px;
-    }
-    body::-webkit-scrollbar-track {
-      background: transparent;
-    }
-    body::-webkit-scrollbar-thumb {
-      background-color: var(--accent);
-      border-radius: 1px;
-    }
+    body::-webkit-scrollbar { width: 8px; }
+    body::-webkit-scrollbar-track { background: transparent; }
+    body::-webkit-scrollbar-thumb { background-color: var(--accent); border-radius: 6px; }
 
     body {
       font-family: 'Segoe UI', sans-serif;
@@ -33,29 +34,21 @@
       position: relative;
     }
 
-    /* PARTICLES */
     #particleCanvas { position: fixed; top:0; left:0; width:100%; height:100%; pointer-events:none; z-index:0; }
 
-    @keyframes fadeInUp {
-      from { opacity:0; transform:translateY(20px); }
-      to   { opacity:1; transform:translateY(0); }
-    }
-    @keyframes slideDown {
-      from { opacity:0; transform:translateY(-10px); }
-      to   { opacity:1; transform:translateY(0); }
-    }
+    @keyframes fadeInUp { from { opacity:0; transform:translateY(20px); } to { opacity:1; transform:translateY(0); } }
+    @keyframes slideDown { from { opacity:0; transform:translateY(-10px); } to { opacity:1; transform:translateY(0); } }
 
-    /* NAVBAR */
     .navbar {
       display:flex; align-items:center;
       background:rgba(17,17,17,0.9);
       padding:1rem 2rem; position:sticky; top:0; z-index:10;
       backdrop-filter:blur(6px);
-      box-shadow:0 4px 15px var(--accent);
+      box-shadow:0 6px 26px rgba(var(--accent-rgb), calc(var(--glow-soft-alpha) * 0.9));
     }
     .navbar h1 {
       font-size:1.5rem; color:var(--accent);
-      text-shadow:0 0 8px var(--accent);
+      text-shadow:0 0 14px rgba(var(--accent-rgb), var(--glow-strong-alpha));
     }
     .search-bar {
       margin-left:auto; width:240px;
@@ -64,34 +57,107 @@
       color:white; outline:none;
       transition:box-shadow .3s;
     }
-    .search-bar:focus { box-shadow:0 0 12px var(--accent); }
+    .search-bar:focus { box-shadow:0 0 18px rgba(var(--accent-rgb),var(--glow-medium-alpha)); }
 
-    /* SETTINGS */
+    /* settings button - larger but no background halo */
     .settings-btn {
       margin-left: 1rem;
-      width: 36px;
-      height: 36px;
+      width: 56px; height: 56px;
+      display:inline-flex; align-items:center; justify-content:center;
       background-color: transparent;
-      background-repeat: no-repeat;
-      background-position: center;
-      background-size: contain;
-      border: none;
-      cursor: pointer;
+      border: none; cursor: pointer;
+      color: var(--accent);
+      border-radius: 50%;
+      padding: 8px;
+      outline: none;
+      position: relative;
+      transition: transform .15s ease;
+      z-index: 12;
     }
-    .settings-panel {
-      position:fixed; top:60px; right:20px;
-      background:#1a1a1a; border:1px solid var(--accent);
-      border-radius:8px; padding:1rem; display:none;
-      z-index:11; box-shadow:0 0 12px var(--accent);
+    .settings-btn img,
+    .settings-btn svg {
+      width: 28px; height: 28px; display:block;
+      z-index: 2;
     }
-    .settings-panel label { display:block; margin-bottom:.5rem; color:white; }
+    .settings-btn:hover,
+    .settings-btn:focus {
+      transform: translateY(-3px);
+      background: rgba(255,255,255,0.02);
+      outline: none;
+    }
 
-    /* GRID & TILES */
+    .settings-panel {
+      position:fixed; top:70px; right:20px;
+      background:#1a1a1a; border:1px solid rgba(var(--accent-rgb),0.14);
+      border-radius:8px; padding:0.6rem; display:none;
+      z-index:110; box-shadow:0 0 18px rgba(var(--accent-rgb),0.10);
+      width:360px;
+    }
+
+    .settings-content { padding:0.75rem; max-height:520px; overflow:auto; }
+
+    /* settings panel scrollbar styled same as main */
+    .settings-content {
+      scrollbar-width: thin;
+      scrollbar-color: var(--accent) transparent;
+    }
+    .settings-content::-webkit-scrollbar { width: 8px; height: 8px; }
+    .settings-content::-webkit-scrollbar-track { background: transparent; }
+    .settings-content::-webkit-scrollbar-thumb { background: var(--accent); border-radius: 6px; }
+
+    .settings-panel label { display:block; margin-bottom:.25rem; color:white; font-size:.9rem; }
+    .settings-row { display:flex; align-items:center; gap:0.5rem; margin-bottom:.75rem; }
+    .settings-row .small { font-size:.85rem; color:#ddd; min-width:130px; }
+    select, input[type="color"] { margin-left:auto; }
+
+    .btn-row { display:flex; gap:.5rem; margin-top:.5rem; padding:0.6rem; border-top:1px solid rgba(255,255,255,0.03); background:transparent; }
+    .btn {
+      background:transparent; border:1px solid rgba(255,255,255,0.08);
+      color:white; padding:.45rem .65rem; border-radius:8px; cursor:pointer;
+    }
+    .btn.strong { background:var(--accent); color:#000; border:none; box-shadow:0 6px 18px rgba(var(--accent-rgb),0.08); }
+
     .game-grid {
-      display:grid;
-      grid-template-columns:repeat(auto-fill, minmax(280px,1fr));
+      display:grid; grid-template-columns:repeat(auto-fill, minmax(280px,1fr));
       gap:1.5rem; padding:2rem; position:relative; z-index:5;
     }
+
+    .game-grid.list-view {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 12px;
+      padding: 16px;
+    }
+    .game-grid.list-view .game-tile {
+      display:flex;
+      flex-direction:row;
+      gap:1rem;
+      align-items:center;
+      padding:12px;
+      border-radius:12px;
+      background:rgba(255,255,255,0.02);
+    }
+    .game-grid.list-view .game-image {
+      width:220px;
+      height:120px;
+      flex:0 0 220px;
+      border-radius:10px;
+      object-fit:cover;
+      margin:0;
+    }
+    .game-grid.list-view .game-content { padding:0; }
+
+    @media (max-width:720px) {
+      .game-grid.list-view {
+        grid-template-columns: 1fr;
+      }
+      .game-grid.list-view .game-tile { flex-direction: column; padding:12px; }
+      .game-grid.list-view .game-image { width:100%; height:auto; flex:0 0 auto; border-radius:12px; }
+      .game-grid.list-view .game-content { padding-top:8px; }
+      .settings-panel { width:92%; left:4%; right:4%; }
+      .control-label { min-width:96px; }
+    }
+
     .game-tile {
       position:relative; background:rgba(255,255,255,0.05);
       border:1px solid rgba(255,255,255,0.1); border-radius:16px;
@@ -101,76 +167,127 @@
       display:flex; flex-direction:column;
     }
     .game-tile:hover {
-      transform:translateY(-5px);
-      box-shadow:
-        0 12px 25px rgba(0,255,208,0.2),
-        0 0 15px var(--accent);
+      transform:translateY(-6px);
+      box-shadow: 0 20px 40px rgba(var(--accent-rgb), calc(var(--glow-medium-alpha) * 0.9)), 0 0 20px rgba(var(--accent-rgb), calc(var(--glow-soft-alpha) * 2));
     }
-    .game-image {
-      width:100%; aspect-ratio:16/9; object-fit:cover;
-      flex-shrink:0;
-    }
+    .game-image { width:100%; aspect-ratio:16/9; object-fit:cover; flex-shrink:0; }
     .game-content { padding:1rem; flex:1; }
-    .game-title {
-      font-size:1.3rem; color:var(--accent);
-      text-shadow:0 0 5px var(--accent);
-      margin-bottom:.25rem;
-    }
-    .game-info {
-      font-size:.9rem; color:#ccc;
-      margin-bottom:.5rem;
-    }
+    .game-title { font-size:1.3rem; color:var(--accent); text-shadow:0 0 10px rgba(var(--accent-rgb), calc(var(--glow-medium-alpha) * 1.1)); margin-bottom:.25rem; }
+    .game-info { font-size:.9rem; color:#ccc; margin-bottom:.5rem; }
 
-    /* SERIES MENU (replaces tile) */
     .series-menu {
-      position:absolute; top:0; left:0;
-      width:100%; height:100%;
-      background:rgba(20,20,20,0.95);
-      border-radius:16px;
-      display:none; flex-direction:column;
-      animation:slideDown .3s ease forwards;
-      z-index:6;
+      position:absolute;
+      inset:0;
+      background:linear-gradient(180deg, rgba(6,6,6,0.98), rgba(12,12,12,0.96));
+      border-radius:12px;
+      display:none; flex-direction:column; animation:slideDown .16s ease forwards;
+      z-index:120;
+      padding:12px;
+      overflow:hidden;
+      box-shadow: 0 10px 30px rgba(var(--accent-rgb), 0.06), 0 0 28px rgba(var(--accent-rgb), 0.04);
     }
     .series-menu.show { display:flex; }
-
-    /* Opaque header, no accent background */
     .series-menu h3 {
-      padding:1rem; margin:0;
-      background: rgba(20,20,20,1);
-      color:var(--accent);
-      font-size:1.2rem; display:flex; align-items:center;
-    }
-    .series-menu h3 .back-arrow {
-      margin-right:0.5rem;
-      color:var(--accent);
-      cursor:pointer;
-      font-size:1.2rem;
+      margin:0; padding:.5rem .75rem; display:flex; align-items:center; gap:.5rem;
+      color:var(--accent); font-size:1rem; border-bottom:1px solid rgba(255,255,255,0.04);
+      text-shadow: 0 0 8px rgba(var(--accent-rgb), var(--glow-soft-alpha));
     }
 
-    .series-menu .list {
-      flex:1; overflow-y:auto;
-      scrollbar-width: thin;
-      scrollbar-color: var(--accent) transparent;
-    }
-    .series-menu .list::-webkit-scrollbar {
-      width:2px;
-    }
-    .series-menu .list::-webkit-scrollbar-track {
-      background:transparent;
-    }
-    .series-menu .list::-webkit-scrollbar-thumb {
-      background-color:var(--accent);
-      border-radius:1px;
-    }
+    .series-menu .list { flex:1; overflow-y:auto; padding:.5rem; scrollbar-width: thin; scrollbar-color: var(--accent) transparent; display:flex; flex-direction:column; gap:8px; }
 
     .series-menu .item {
-      padding:.75rem 1rem; cursor:pointer;
-      transition:background .2s; border-bottom:1px solid rgba(255,255,255,0.1);
-      white-space:nowrap;
+      padding:.6rem .75rem;
+      cursor:pointer;
+      transition:transform .12s, background .12s, box-shadow .12s;
+      border-radius:10px;
+      margin:0;
+      background: linear-gradient(180deg, rgba(var(--accent-rgb),0.18), rgba(var(--accent-rgb),0.14));
+      color: var(--accent-contrast);
+      border: 1px solid rgba(var(--accent-rgb),0.18);
+      box-shadow: 0 6px 18px rgba(var(--accent-rgb),0.06), 0 0 10px rgba(var(--accent-rgb),0.03);
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      font-weight:600;
     }
-    .series-menu .item:last-child { border-bottom:none; }
     .series-menu .item:hover {
-      background:var(--accent); color:black;
+      transform: translateY(-3px);
+      background: linear-gradient(180deg, rgba(var(--accent-rgb),0.26), rgba(var(--accent-rgb),0.20));
+      box-shadow: 0 10px 26px rgba(var(--accent-rgb),0.10), 0 0 18px rgba(var(--accent-rgb),0.06);
+    }
+
+    .category {
+      border:1px solid rgba(255,255,255,0.06);
+      border-radius:8px;
+      overflow:hidden;
+      background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+      margin-bottom:0.75rem;
+    }
+    .category-header {
+      display:flex; align-items:center; gap:0.5rem;
+      padding:0.6rem 0.65rem; cursor:pointer;
+      border-bottom:1px solid rgba(255,255,255,0.03);
+      background:transparent;
+    }
+    .category-header .caret {
+      width:18px; height:18px; display:inline-flex; align-items:center; justify-content:center;
+      transform:rotate(0deg); transition:transform .18s ease;
+      color:var(--accent);
+    }
+    .category.open .category-header .caret { transform:rotate(90deg); }
+    .category-title { color:var(--accent); font-weight:600; font-size:0.95rem; }
+    .category-body { padding:0.75rem; display:none; }
+    .category.open .category-body { display:block; }
+
+    .control-row { display:flex; align-items:center; gap:0.6rem; margin-bottom:0.6rem; }
+    .control-label { min-width:110px; font-size:.88rem; color:#ddd; }
+    .control-input { flex:1; display:flex; align-items:center; gap:0.5rem; }
+    input[type="range"] { width:100%; -webkit-appearance:none; appearance:none; height:6px; background:rgba(255,255,255,0.06); border-radius:6px; outline:none; }
+    input[type="range"]::-webkit-slider-thumb { -webkit-appearance:none; appearance:none; width:14px; height:14px; border-radius:50%; background:var(--accent); box-shadow:0 0 12px rgba(var(--accent-rgb),0.12); cursor:pointer; border:none; }
+    .value-badge { min-width:42px; text-align:center; font-size:.85rem; color:var(--muted); }
+
+    .radio-group { display:flex; gap:0.35rem; flex-wrap:wrap; align-items:center; }
+    .radio-group label {
+      padding:.35rem .6rem; border-radius:8px; font-size:.85rem; cursor:pointer;
+      background:rgba(255,255,255,0.02); border:1px solid rgba(255,255,255,0.03);
+      display:inline-flex; align-items:center; justify-content:center;
+    }
+    input[type="radio"] { display:none; }
+    input[type="radio"]:checked + label { background:var(--accent); color:#000; border:1px solid rgba(0,0,0,0.1); }
+
+    #accentSwatch {
+      width:36px; height:22px; border-radius:6px; border:1px solid rgba(255,255,255,0.06);
+      cursor:pointer; box-shadow:0 1px 0 rgba(255,255,255,0.02) inset;
+      display:inline-block;
+    }
+
+    /* Connect toggle: remove glow, make solid accent color when ON */
+    .checkbox {
+      width:44px; height:22px; background:rgba(255,255,255,0.06);
+      border-radius:12px; position:relative; cursor:pointer;
+      transition: background .12s ease, border-color .12s ease;
+      border:1px solid rgba(255,255,255,0.04);
+    }
+    .checkbox .knob {
+      position:absolute; top:3px; left:3px; width:16px; height:16px;
+      background:#fff; border-radius:50%; transition:left .15s ease, transform .15s ease;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.45);
+    }
+    /* ON state: solid accent background, no glow */
+    .checkbox.on {
+      background: var(--accent);
+      border-color: rgba(0,0,0,0.08);
+    }
+    .checkbox.on .knob {
+      left:25px;
+      background: #fff;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.45);
+      transform: translateZ(0);
+    }
+    .checkbox:focus-visible {
+      outline: none;
+      box-shadow: 0 0 0 4px rgba(var(--accent-rgb),0.06);
+      border-radius:12px;
     }
   </style>
 </head>
@@ -180,77 +297,620 @@
   <div class="navbar">
     <h1>Bike’s Site</h1>
     <input id="searchInput" class="search-bar" placeholder="Search by title…">
-    <button id="settingsBtn" class="settings-btn"></button>
+    <button id="settingsBtn" class="settings-btn" aria-label="Settings" title="Settings"></button>
   </div>
 
-  <div id="settingsPanel" class="settings-panel">
-    <label for="accentColor">Accent Color</label>
-    <input type="color" id="accentColor" value="#00ffd0">
+  <div id="settingsPanel" class="settings-panel" aria-hidden="true">
+    <div class="settings-content">
+      <!-- Appearance -->
+      <div id="appearanceCategory" class="category" aria-expanded="true">
+        <div class="category-header" role="button" tabindex="0" aria-controls="appearanceBody" aria-expanded="true">
+          <div class="caret">▶</div>
+          <div class="category-title">Appearance</div>
+        </div>
+
+        <div id="appearanceBody" class="category-body">
+          <div class="control-row">
+            <div class="control-label">Accent color</div>
+            <div class="control-input">
+              <div id="accentSwatch" title="Click to pick accent color" aria-label="Accent color swatch" tabindex="0"></div>
+              <input type="color" id="accentColorPicker" value="#00ffd0" style="display:none;">
+            </div>
+          </div>
+
+          <div class="control-row">
+            <div class="control-label">View mode</div>
+            <div class="control-input">
+              <div class="radio-group" id="viewModeGroup">
+                <input type="radio" id="view-grid" name="viewMode" value="grid"><label for="view-grid">Grid</label>
+                <input type="radio" id="view-list" name="viewMode" value="list"><label for="view-list">List</label>
+              </div>
+            </div>
+          </div>
+
+          <!-- Glow moved into Appearance -->
+          <div class="control-row">
+            <div class="control-label">Glow multiplier</div>
+            <div class="control-input">
+              <input id="glowRange" type="range" min="0" max="10" step="0.01" />
+              <div id="glowLabel" class="value-badge"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Particles -->
+      <div id="particleCategory" class="category" aria-expanded="true">
+        <div class="category-header" role="button" tabindex="0" aria-controls="particleBody" aria-expanded="true">
+          <div class="caret">▶</div>
+          <div class="category-title">Particles</div>
+        </div>
+        <div id="particleBody" class="category-body">
+          <div class="control-row">
+            <div class="control-label">Style</div>
+            <div class="control-input">
+              <div class="radio-group" id="styleRadios">
+                <input type="radio" id="style-circle" name="particleStyle" value="circle"><label for="style-circle">Circle</label>
+                <input type="radio" id="style-square" name="particleStyle" value="square"><label for="style-square">Square</label>
+                <input type="radio" id="style-triangle" name="particleStyle" value="triangle"><label for="style-triangle">Triangle</label>
+              </div>
+            </div>
+          </div>
+
+          <div class="control-row">
+            <div class="control-label">Amount</div>
+            <div class="control-input">
+              <input id="amountRange" type="range" min="10" max="450" step="1" />
+              <div id="amountLabel" class="value-badge"></div>
+            </div>
+          </div>
+
+          <div class="control-row">
+            <div class="control-label">Size</div>
+            <div class="control-input">
+              <input id="sizeRange" type="range" min="0.5" max="8" step="0.1" />
+              <div id="sizeLabel" class="value-badge"></div>
+            </div>
+          </div>
+
+          <div class="control-row">
+            <div class="control-label">Speed</div>
+            <div class="control-input">
+              <input id="speedRange" type="range" min="0" max="3" step="0.01" />
+              <div id="speedLabel" class="value-badge"></div>
+            </div>
+          </div>
+
+          <div class="control-row">
+            <div class="control-label">Opacity</div>
+            <div class="control-input">
+              <input id="opacityRange" type="range" min="0.05" max="1" step="0.01" />
+              <div id="opacityLabel" class="value-badge"></div>
+            </div>
+          </div>
+
+          <div class="control-row">
+            <div class="control-label">Connect lines</div>
+            <div class="control-input">
+              <div id="connectToggle" class="toggle" aria-hidden="false">
+                <div id="connectCheckbox" class="checkbox" role="switch" aria-checked="false" tabindex="0" aria-label="Connect lines toggle"><div class="knob"></div></div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+    </div>
+
+    <div class="btn-row">
+      <button id="resetBtn" class="btn">Reset All</button>
+      <button id="closeBtn" class="btn" style="margin-left:auto;">Close</button>
+    </div>
   </div>
 
   <div id="gameGrid" class="game-grid"></div>
 
   <script>
-    // PARTICLES (same as before)…
+    // --- PARTICLE SYSTEM & SETTINGS (Glow to 10, connect toggle label + solid accent ON, removed on/off text) ---
     const canvas = document.getElementById('particleCanvas'),
           ctx = canvas.getContext('2d');
-    let particles = [];
-    function resize(){ canvas.width=innerWidth; canvas.height=innerHeight; }
-    window.addEventListener('resize',resize); resize();
-    function initParticles(){
-      particles = Array.from({length:120},()=>({
-        x:Math.random()*canvas.width,
-        y:Math.random()*canvas.height,
-        r:Math.random()*2+1,
-        dx:(Math.random()-0.5)*0.4,
-        dy:(Math.random()-0.5)*0.4
-      }));
+
+    // Controls
+    const settingsBtn = document.getElementById('settingsBtn'),
+          settingsPanel = document.getElementById('settingsPanel'),
+          closeBtn = document.getElementById('closeBtn'),
+
+          // appearance
+          appearanceCategory = document.getElementById('appearanceCategory'),
+          appearanceHeader = appearanceCategory.querySelector('.category-header'),
+          accentSwatch = document.getElementById('accentSwatch'),
+          accentPicker = document.getElementById('accentColorPicker'),
+          viewModeRadios = document.querySelectorAll('input[name="viewMode"]'),
+
+          // particles
+          particleCategory = document.getElementById('particleCategory'),
+          categoryHeader = particleCategory.querySelector('.category-header'),
+          styleRadios = document.querySelectorAll('input[name="particleStyle"]'),
+          amountRange = document.getElementById('amountRange'),
+          amountLabel = document.getElementById('amountLabel'),
+          sizeRange = document.getElementById('sizeRange'),
+          sizeLabel = document.getElementById('sizeLabel'),
+          speedRange = document.getElementById('speedRange'),
+          speedLabel = document.getElementById('speedLabel'),
+          opacityRange = document.getElementById('opacityRange'),
+          opacityLabel = document.getElementById('opacityLabel'),
+          connectCheckbox = document.getElementById('connectCheckbox'),
+          resetBtn = document.getElementById('resetBtn'),
+          gridEl = document.getElementById('gameGrid'),
+
+          // glow
+          glowRange = document.getElementById('glowRange'),
+          glowLabel = document.getElementById('glowLabel');
+
+    // Default settings
+    const STORAGE_KEY = 'particlesSettingsV1';
+    const baseGlow = { strong: 0.45, medium: 0.22, soft: 0.12 };
+    const defaultSettings = {
+      style: 'circle',
+      amount: 120,
+      size: 2,
+      speed: 0.4,
+      opacity: 0.4,
+      connect: false,
+      connectDistance: 120,
+      viewMode: 'grid',
+      accentColor: '#00ffd0',
+      glowScale: 1
+    };
+
+    // Load saved or default
+    let settings = Object.assign({}, defaultSettings, JSON.parse(localStorage.getItem(STORAGE_KEY) || "{}"));
+
+    // sanitize numeric values
+    settings.amount = Math.max(10, Math.min(450, settings.amount || defaultSettings.amount));
+    settings.size = settings.size || defaultSettings.size;
+    settings.speed = (settings.speed !== undefined) ? settings.speed : defaultSettings.speed;
+    settings.opacity = (settings.opacity !== undefined) ? settings.opacity : defaultSettings.opacity;
+    settings.viewMode = settings.viewMode || defaultSettings.viewMode;
+    settings.connect = !!settings.connect;
+    settings.accentColor = settings.accentColor || defaultSettings.accentColor;
+    settings.glowScale = (settings.glowScale !== undefined) ? settings.glowScale : defaultSettings.glowScale;
+
+    // --- Accent & Glow helpers ---
+    function hexToRgb(hex) {
+      if(!hex) return [0,255,208];
+      hex = hex.replace('#','').trim();
+      if(hex.length === 3) hex = hex.split('').map(c => c + c).join('');
+      const r = parseInt(hex.slice(0,2),16);
+      const g = parseInt(hex.slice(2,4),16);
+      const b = parseInt(hex.slice(4,6),16);
+      return [r||0,g||0,b||0];
     }
-    function draw(){
-      ctx.clearRect(0,0,canvas.width,canvas.height);
-      const accent = getComputedStyle(document.documentElement).getPropertyValue('--accent').trim();
-      ctx.globalAlpha = 0.4;
-      particles.forEach(p=>{
+    function computeContrastForHex(hex) {
+      const [r,g,b] = hexToRgb(hex);
+      const luminance = 0.299*r + 0.587*g + 0.114*b;
+      return luminance > 180 ? '#000' : '#fff';
+    }
+    function setAccentColor(colorHex) {
+      if(!colorHex) return;
+      document.documentElement.style.setProperty('--accent', colorHex);
+      const [r,g,b] = hexToRgb(colorHex);
+      document.documentElement.style.setProperty('--accent-rgb', `${r}, ${g}, ${b}`);
+      const contrast = computeContrastForHex(colorHex);
+      document.documentElement.style.setProperty('--accent-contrast', contrast);
+    }
+    function applyGlowScale(scale){
+      const s = Math.max(0, Number(scale));
+      document.documentElement.style.setProperty('--glow-strong-alpha', (baseGlow.strong * s).toFixed(4));
+      document.documentElement.style.setProperty('--glow-medium-alpha', (baseGlow.medium * s).toFixed(4));
+      document.documentElement.style.setProperty('--glow-soft-alpha', (baseGlow.soft * s).toFixed(4));
+    }
+
+    // Inline gear SVG fallback
+    const GEAR_SVG = `
+      <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
+        <path fill="currentColor" d="M19.14 12.94c.04-.31.06-.63.06-.94s-.02-.63-.06-.94l2.03-1.58a.5.5 0 0 0 .12-.64l-1.92-3.32a.5.5 0 0 0-.6-.22l-2.39.96a7.03 7.03 0 0 0-1.62-.94l-.36-2.54A.5.5 0 0 0 13.8 2h-3.6a.5.5 0 0 0-.49.42l-.36 2.54c-.58.24-1.12.56-1.62.94l-2.39-.96a.5.5 0 0 0-.6.22L2.71 8.88a.5.5 0 0 0 .12.64L4.86 11.1c-.04.31-.06.63-.06.94s.02.63.06.94L2.79 15.6a.5.5 0 0 0-.12.64l1.92 3.32c.13.22.39.31.6.22l2.39-.96c.5.38 1.04.7 1.62.94l.36 2.54c.05.26.27.42.49.42h3.6c.22 0 .44-.16.49-.42l.36-2.54c.58-.24 1.12-.56 1.62-.94l2.39.96c.22.09.48 0 .6-.22l1.92-3.32a.5.5 0 0 0-.12-.64l-2.03-1.58zM12 15.5A3.5 3.5 0 1 1 12 8.5a3.5 3.5 0 0 1 0 7z"/>
+      </svg>
+    `;
+
+    const SETTINGS_ICON_PATH = 'assets/images/settings.txt';
+    (async function loadSettingsIconOnce(){
+      try {
+        const res = await fetch(SETTINGS_ICON_PATH);
+        if(!res.ok) throw new Error('not found');
+        const txt = (await res.text()).trim();
+        if(txt && txt.length > 24) {
+          const img = document.createElement('img');
+          img.src = 'data:image/png;base64,' + txt;
+          img.alt = 'Settings';
+          img.style.width = '28px';
+          img.style.height = '28px';
+          settingsBtn.innerHTML = '';
+          settingsBtn.appendChild(img);
+          return;
+        }
+      } catch (e) {
+        // fallback
+      }
+      settingsBtn.innerHTML = GEAR_SVG;
+    })();
+
+    // Initialize accent + swatch visuals
+    setAccentColor(settings.accentColor);
+    function updateSwatch(color){
+      accentSwatch.style.background = color;
+      const c = color.replace('#','');
+      const r = parseInt(c.substring(0,2),16), g = parseInt(c.substring(2,4),16), b = parseInt(c.substring(4,6),16);
+      const luminance = 0.299*r + 0.587*g + 0.114*b;
+      accentSwatch.style.borderColor = luminance > 200 ? 'rgba(0,0,0,0.12)' : 'rgba(255,255,255,0.06)';
+    }
+    updateSwatch(settings.accentColor);
+    accentPicker.value = settings.accentColor;
+
+    function setRadioValue(groupName, value) {
+      const els = document.querySelectorAll(`input[name="${groupName}"]`);
+      els.forEach(el => { el.checked = (el.value === value); });
+    }
+
+    // Initialize UI values
+    setRadioValue('particleStyle', settings.style);
+    amountRange.value = settings.amount;
+    sizeRange.value = settings.size;
+    speedRange.value = settings.speed;
+    opacityRange.value = settings.opacity;
+    setRadioValue('viewMode', settings.viewMode);
+
+    amountLabel.textContent = settings.amount;
+    sizeLabel.textContent = parseFloat(settings.size).toFixed(1);
+    speedLabel.textContent = parseFloat(settings.speed);
+    opacityLabel.textContent = parseFloat(settings.opacity);
+
+    // Glow init (max now 10)
+    glowRange.max = 10;
+    glowRange.value = settings.glowScale;
+    glowLabel.textContent = parseFloat(settings.glowScale).toFixed(2);
+    applyGlowScale(settings.glowScale);
+
+    function saveSettings(){
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(settings));
+    }
+
+    function resetToDefaults(){
+      settings = Object.assign({}, defaultSettings);
+      setAccentColor(settings.accentColor);
+
+      setRadioValue('particleStyle', settings.style);
+      amountRange.value = settings.amount;
+      sizeRange.value = settings.size;
+      speedRange.value = settings.speed;
+      opacityRange.value = settings.opacity;
+      setRadioValue('viewMode', settings.viewMode);
+
+      connectCheckbox.classList.toggle('on', !!settings.connect);
+      connectCheckbox.setAttribute('aria-checked', String(!!settings.connect));
+
+      accentPicker.value = settings.accentColor;
+      updateSwatch(settings.accentColor);
+
+      amountLabel.textContent = settings.amount;
+      sizeLabel.textContent = parseFloat(settings.size).toFixed(1);
+      speedLabel.textContent = parseFloat(settings.speed);
+      opacityLabel.textContent = parseFloat(settings.opacity);
+
+      // glow defaults
+      settings.glowScale = defaultSettings.glowScale;
+      glowRange.value = settings.glowScale;
+      glowLabel.textContent = parseFloat(settings.glowScale).toFixed(2);
+      applyGlowScale(settings.glowScale);
+
+      saveSettings();
+      applySettingsToParticles(true);
+      updateAmount(settings.amount);
+      applyViewMode();
+    }
+
+    // category toggles
+    function toggleCategory(el, open) {
+      el.classList.toggle('open', open);
+      const caret = el.querySelector('.caret');
+      const expanded = el.classList.contains('open');
+      el.querySelector('.category-header').setAttribute('aria-expanded', String(expanded));
+      if (expanded) caret.style.transform = 'rotate(90deg)';
+      else caret.style.transform = 'rotate(0deg)';
+    }
+    toggleCategory(appearanceCategory, true);
+    toggleCategory(particleCategory, true);
+
+    appearanceHeader.addEventListener('click', () => toggleCategory(appearanceCategory, !appearanceCategory.classList.contains('open')));
+    appearanceHeader.addEventListener('keypress', (e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); toggleCategory(appearanceCategory, !appearanceCategory.classList.contains('open')); } });
+
+    categoryHeader.addEventListener('click', () => toggleCategory(particleCategory, !particleCategory.classList.contains('open')));
+    categoryHeader.addEventListener('keypress', (e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); toggleCategory(particleCategory, !particleCategory.classList.contains('open')); } });
+
+    // Resize canvas
+    function resize(){ canvas.width = innerWidth; canvas.height = innerHeight; }
+    window.addEventListener('resize', resize); resize();
+
+    // Particle system
+    let particles = [];
+    function rand(min, max){ return Math.random() * (max - min) + min; }
+
+    function createParticle(){
+      const angle = Math.random() * Math.PI * 2;
+      const speedFactor = settings.speed;
+      const p = {
+        x: Math.random() * canvas.width,
+        y: Math.random() * canvas.height,
+        r: Math.max(0.3, rand(settings.size * 0.6, settings.size * 1.4)),
+        dx: Math.cos(angle) * rand(0, speedFactor),
+        dy: Math.sin(angle) * rand(0, speedFactor),
+        rot: Math.random() * Math.PI * 2,
+        rotSpeed: rand(-0.02, 0.02),
+        shape: settings.style,
+        baseAlpha: settings.opacity
+      };
+      return p;
+    }
+
+    function initParticles(amount){
+      particles.length = 0;
+      for(let i=0;i<amount;i++) particles.push(createParticle());
+    }
+
+    // drawing helpers
+    function drawCircle(p, accent, alpha){
+      ctx.beginPath(); ctx.arc(p.x, p.y, Math.max(0.3, p.r), 0, Math.PI*2);
+      ctx.fillStyle = accent; ctx.globalAlpha = alpha; ctx.fill();
+    }
+    function drawSquare(p, accent, alpha){
+      ctx.save(); ctx.translate(p.x, p.y); ctx.rotate(p.rot); ctx.globalAlpha = alpha; ctx.fillStyle = accent;
+      const s = Math.max(0.3, p.r) * 1.6; ctx.fillRect(-s/2, -s/2, s, s); ctx.restore();
+    }
+    function drawTriangle(p, accent, alpha){
+      const s = Math.max(0.3, p.r) * 2; ctx.save(); ctx.translate(p.x, p.y); ctx.rotate(p.rot);
+      ctx.beginPath(); ctx.moveTo(0, -s/2); ctx.lineTo(s/2, s/2); ctx.lineTo(-s/2, s/2); ctx.closePath();
+      ctx.globalAlpha = alpha; ctx.fillStyle = accent; ctx.fill(); ctx.restore();
+    }
+
+    function applySettingsToParticles(fullRecreate=false){
+      if(fullRecreate){
+        initParticles(settings.amount);
+        return;
+      }
+      for(const p of particles){
+        p.shape = settings.style;
+        p.baseAlpha = settings.opacity;
+        p.r = Math.max(0.3, rand(settings.size * 0.6, settings.size * 1.4));
+      }
+    }
+
+    function updateAmount(newAmount){
+      const amt = Math.max(10, Math.min(450, Math.floor(newAmount)));
+      if(amt === particles.length) return;
+      if(amt > particles.length){
+        const toAdd = amt - particles.length;
+        for(let i=0;i<toAdd;i++) particles.push(createParticle());
+      } else {
+        particles.length = amt;
+      }
+      amountLabel.textContent = amt;
+    }
+
+    function drawConnectionBeam(a, b, accent, alpha, maxD){
+      const baseAlpha = Math.max(0, alpha);
+      const layers = 3;
+      for(let i=0;i<layers;i++){
         ctx.beginPath();
-        ctx.arc(p.x,p.y,p.r,0,2*Math.PI);
-        ctx.fillStyle = accent; ctx.fill();
-        p.x+=p.dx; p.y+=p.dy;
-        if(p.x<0)p.x=canvas.width; if(p.x>canvas.width)p.x=0;
-        if(p.y<0)p.y=canvas.height; if(p.y>canvas.height)p.y=0;
-      });
+        ctx.moveTo(a.x, a.y);
+        ctx.lineTo(b.x, b.y);
+        ctx.strokeStyle = accent;
+        ctx.lineWidth = 1.2 + i * 1.5;
+        ctx.globalAlpha = baseAlpha * (1 - i * 0.35);
+        ctx.stroke();
+      }
+    }
+
+    let last = performance.now();
+    function draw(now){
+      const dt = Math.min(60, now - last) / 1000;
+      last = now;
+      ctx.clearRect(0,0,canvas.width,canvas.height);
+
+      const accent = getComputedStyle(document.documentElement).getPropertyValue('--accent').trim() || '#00ffd0';
+
+      // connections
+      if(settings.connect){
+        const maxD = settings.connectDistance;
+        for(let i=0;i<particles.length;i++){
+          const a = particles[i];
+          for(let j=i+1;j<particles.length;j++){
+            const b = particles[j];
+            const dx = a.x - b.x, dy = a.y - b.y;
+            const d2 = dx*dx + dy*dy;
+            if(d2 < maxD*maxD){
+              const d = Math.sqrt(d2);
+              const alpha = ((maxD - d) / maxD) * 0.22 * settings.opacity;
+              if(alpha <= 0) continue;
+              drawConnectionBeam(a, b, accent, alpha, maxD);
+            }
+          }
+        }
+      }
+
+      for(const p of particles){
+        let alpha = p.baseAlpha;
+
+        switch(p.shape){
+          case 'square': drawSquare(p, accent, alpha); break;
+          case 'triangle': drawTriangle(p, accent, alpha); break;
+          default: drawCircle(p, accent, alpha); break;
+        }
+
+        p.x += p.dx * (1 + settings.speed * 0.8) * (dt * 60);
+        p.y += p.dy * (1 + settings.speed * 0.8) * (dt * 60);
+        p.rot += p.rotSpeed * (1 + settings.speed);
+
+        if(p.x < -50) p.x = canvas.width + 50;
+        if(p.x > canvas.width + 50) p.x = -50;
+        if(p.y < -50) p.y = canvas.height + 50;
+        if(p.y > canvas.height + 50) p.y = -50;
+      }
+
+      ctx.globalAlpha = 1;
       requestAnimationFrame(draw);
     }
-    initParticles(); draw();
 
-    // SETTINGS & ACCENT
-    const SETTINGS_ICON='assets/images/settings.txt',
-          settingsBtn=document.getElementById('settingsBtn'),
-          settingsPanel=document.getElementById('settingsPanel'),
-          colorPicker=document.getElementById('accentColor');
-    fetch(SETTINGS_ICON).then(r=>r.text()).then(t=>{
-      settingsBtn.style.backgroundImage=`url(data:image/png;base64,${t.trim()})`;
-    });
-    settingsBtn.addEventListener('click',e=>{
+    // initialize
+    initParticles(settings.amount);
+    applySettingsToParticles();
+    requestAnimationFrame(draw);
+
+    // --- UI wiring ---
+    settingsBtn.addEventListener('click', e => {
       e.stopPropagation();
-      settingsPanel.style.display = settingsPanel.style.display==='block'?'none':'block';
+      const shown = settingsPanel.style.display === 'block';
+      settingsPanel.style.display = shown ? 'none' : 'block';
+      settingsPanel.setAttribute('aria-hidden', shown ? 'true' : 'false');
     });
-    document.addEventListener('click',()=>{
-      settingsPanel.style.display='none';
+
+    closeBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      settingsPanel.style.display = 'none';
+      settingsPanel.setAttribute('aria-hidden', 'true');
+    });
+
+    document.addEventListener('click', () => {
+      settingsPanel.style.display = 'none';
+      settingsPanel.setAttribute('aria-hidden', 'true');
       document.querySelectorAll('.series-menu.show').forEach(m=>m.classList.remove('show'));
     });
-    const saved = localStorage.getItem('accentColor');
-    if(saved){
-      document.documentElement.style.setProperty('--accent',saved);
-      colorPicker.value = saved;
-    }
-    colorPicker.addEventListener('input',e=>{
-      document.documentElement.style.setProperty('--accent',e.target.value);
-      localStorage.setItem('accentColor',e.target.value);
+    settingsPanel.addEventListener('click', e => e.stopPropagation());
+
+    // ACCENT swatch handlers
+    accentSwatch.addEventListener('click', () => accentPicker.click());
+    accentSwatch.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); accentPicker.click(); }
     });
 
-    // LOAD & RENDER TILES
+    accentPicker.addEventListener('input', (e) => {
+      const v = e.target.value;
+      settings.accentColor = v;
+      updateSwatch(v);
+      setAccentColor(v);
+      saveSettings();
+    });
+
+    // VIEW MODE
+    function applyViewMode(){
+      gridEl.classList.toggle('list-view', settings.viewMode === 'list');
+    }
+    applyViewMode();
+
+    viewModeRadios.forEach(r => {
+      r.addEventListener('change', e => {
+        if(!e.target.checked) return;
+        settings.viewMode = e.target.value;
+        saveSettings();
+        applyViewMode();
+      });
+    });
+
+    // Particle control handlers
+    styleRadios.forEach(r => {
+      r.addEventListener('change', e => {
+        if(!e.target.checked) return;
+        settings.style = e.target.value;
+        applySettingsToParticles();
+        saveSettings();
+      });
+    });
+
+    amountRange.addEventListener('input', e => {
+      const v = parseInt(e.target.value, 10);
+      settings.amount = v;
+      amountLabel.textContent = v;
+      updateAmount(v);
+      saveSettings();
+    });
+
+    sizeRange.addEventListener('input', e => {
+      const v = parseFloat(e.target.value);
+      settings.size = v;
+      sizeLabel.textContent = v.toFixed(1);
+      applySettingsToParticles();
+      saveSettings();
+    });
+
+    speedRange.addEventListener('input', e => {
+      const v = parseFloat(e.target.value);
+      settings.speed = v;
+      speedLabel.textContent = parseFloat(v).toFixed(2);
+      for(const p of particles){
+        const angle = Math.atan2(p.dy, p.dx) || (Math.random()*Math.PI*2);
+        const sp = Math.max(0.001, rand(0, v));
+        p.dx = Math.cos(angle) * sp;
+        p.dy = Math.sin(angle) * sp;
+      }
+      saveSettings();
+    });
+
+    opacityRange.addEventListener('input', e => {
+      const v = parseFloat(e.target.value);
+      settings.opacity = v;
+      opacityLabel.textContent = parseFloat(v).toFixed(2);
+      for(const p of particles) p.baseAlpha = v;
+      saveSettings();
+    });
+
+    // toggles (connect) - simplified: toggle class + aria state, no glow text
+    function toggleCheckboxEl(el) {
+      const newState = !el.classList.contains('on');
+      el.classList.toggle('on', newState);
+      el.setAttribute('aria-checked', String(newState));
+      return newState;
+    }
+    connectCheckbox.addEventListener('click', () => {
+      const val = toggleCheckboxEl(connectCheckbox);
+      settings.connect = val;
+      saveSettings();
+    });
+    connectCheckbox.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        const val = toggleCheckboxEl(connectCheckbox);
+        settings.connect = val;
+        saveSettings();
+      }
+    });
+
+    // Reset All
+    resetBtn.addEventListener('click', e => {
+      e.stopPropagation();
+      resetToDefaults();
+    });
+
+    // Glow slider handling
+    glowRange.addEventListener('input', (e) => {
+      const v = parseFloat(e.target.value);
+      settings.glowScale = v;
+      glowLabel.textContent = parseFloat(v).toFixed(2);
+      applyGlowScale(v);
+      saveSettings();
+    });
+
+    // finalize initial UI state
+    amountLabel.textContent = settings.amount;
+    updateAmount(settings.amount);
+    setRadioValue('viewMode', settings.viewMode);
+    applyViewMode();
+
+    // set initial connect toggle UI
+    connectCheckbox.classList.toggle('on', !!settings.connect);
+    connectCheckbox.setAttribute('aria-checked', String(!!settings.connect));
+
+    // --- tiles + series menu ---
     const TILES_PATH='assets/tiles.txt',
-          grid=document.getElementById('gameGrid'),
           searchInput=document.getElementById('searchInput');
     let allGames=[];
     async function loadDataUri(path){
@@ -258,16 +918,22 @@
       return 'data:image/png;base64,'+txt.trim();
     }
     async function loadTiles(){
-      const txt=await fetch(TILES_PATH).then(r=>r.text());
-      allGames=JSON.parse(txt);
-      renderTiles(allGames);
+      try {
+        const txt=await fetch(TILES_PATH).then(r=>r.text());
+        allGames=JSON.parse(txt);
+        renderTiles(allGames);
+      } catch(err){
+        console.warn('Failed to load tiles', err);
+      }
     }
     async function renderTiles(list){
-      grid.innerHTML='';
+      gridEl.innerHTML='';
       for(const g of list){
         const tile=document.createElement('div');
         tile.className='game-tile';
-        const uri=await loadDataUri(g.img);
+        tile.style.position = 'relative';
+        let uri = '';
+        try { uri = await loadDataUri(g.img); } catch(e){ uri = ''; }
         tile.innerHTML=`
           <img class="game-image" src="${uri}" alt="${g.title}">
           <div class="game-content">
@@ -278,7 +944,7 @@
           const menu=document.createElement('div');
           menu.className='series-menu';
           menu.innerHTML=`
-            <h3><span class="back-arrow">←</span>Series</h3>
+            <h3><span class="back-arrow" title="Back">←</span>Series</h3>
             <div class="list"></div>`;
           const listDiv=menu.querySelector('.list');
           g.series.forEach(s=>{
@@ -297,24 +963,19 @@
           tile.appendChild(menu);
           tile.addEventListener('click',e=>{
             e.stopPropagation();
-            document.querySelectorAll('.series-menu.show')
-              .forEach(m=>m.classList.remove('show'));
+            document.querySelectorAll('.series-menu.show').forEach(m=>m.classList.remove('show'));
             menu.classList.toggle('show');
           });
         } else {
           tile.addEventListener('click',()=>window.location.href=g.href);
         }
-        grid.appendChild(tile);
+        gridEl.appendChild(tile);
       }
     }
 
-    // PREFIX-ONLY SEARCH
     searchInput.addEventListener('input',e=>{
       const q=e.target.value.trim().toLowerCase();
-      renderTiles(q
-        ? allGames.filter(g=>g.title.toLowerCase().startsWith(q))
-        : allGames
-      );
+      renderTiles(q ? allGames.filter(g=>g.title.toLowerCase().startsWith(q)) : allGames);
     });
 
     loadTiles();
