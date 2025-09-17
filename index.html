@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en-us">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Bike’s Site</title>
+  <title>Bike’s Site — Navbar from OpenMe on Index</title>
   <style>
     :root {
       --accent: #00ffd0;
@@ -17,11 +17,12 @@
     }
     * { box-sizing: border-box; margin: 0; padding: 0; }
 
+    /* GLOBAL SCROLLBAR (small) - keep compact like OpenMe while preserving readability */
     html, body {
       scrollbar-width: thin;
       scrollbar-color: var(--accent) transparent;
     }
-    body::-webkit-scrollbar { width: 8px; }
+    body::-webkit-scrollbar { width: 6px; }
     body::-webkit-scrollbar-track { background: transparent; }
     body::-webkit-scrollbar-thumb { background-color: var(--accent); border-radius: 6px; }
 
@@ -39,16 +40,19 @@
     @keyframes fadeInUp { from { opacity:0; transform:translateY(20px); } to { opacity:1; transform:translateY(0); } }
     @keyframes slideDown { from { opacity:0; transform:translateY(-10px); } to { opacity:1; transform:translateY(0); } }
 
+    /* --- NAVBAR: pulled styling/feel from OpenMe, applied onto index layout --- */
     .navbar {
       display:flex; align-items:center;
       background:rgba(17,17,17,0.9);
       padding:1rem 2rem; position:sticky; top:0; z-index:10;
       backdrop-filter:blur(6px);
-      box-shadow:0 6px 26px rgba(var(--accent-rgb), calc(var(--glow-soft-alpha) * 0.9));
+      /* OpenMe-like shadow/glow */
+      box-shadow:0 4px 15px var(--accent);
     }
     .navbar h1 {
       font-size:1.5rem; color:var(--accent);
-      text-shadow:0 0 14px rgba(var(--accent-rgb), var(--glow-strong-alpha));
+      /* softer glow like OpenMe */
+      text-shadow:0 0 8px var(--accent);
     }
     .search-bar {
       margin-left:auto; width:240px;
@@ -57,46 +61,36 @@
       color:white; outline:none;
       transition:box-shadow .3s;
     }
-    .search-bar:focus { box-shadow:0 0 18px rgba(var(--accent-rgb),var(--glow-medium-alpha)); }
+    .search-bar:focus { box-shadow:0 0 12px var(--accent); }
 
-    /* settings button - larger but no background halo */
+    /* settings button (OpenMe look: smaller, background-image based) */
     .settings-btn {
       margin-left: 1rem;
-      width: 56px; height: 56px;
-      display:inline-flex; align-items:center; justify-content:center;
+      width: 36px;
+      height: 36px;
       background-color: transparent;
-      border: none; cursor: pointer;
-      color: var(--accent);
-      border-radius: 50%;
-      padding: 8px;
-      outline: none;
-      position: relative;
-      transition: transform .15s ease;
-      z-index: 12;
-    }
-    .settings-btn img,
-    .settings-btn svg {
-      width: 28px; height: 28px; display:block;
-      z-index: 2;
-    }
-    .settings-btn:hover,
-    .settings-btn:focus {
-      transform: translateY(-3px);
-      background: rgba(255,255,255,0.02);
-      outline: none;
+      background-repeat: no-repeat;
+      background-position: center;
+      background-size: contain;
+      border: none;
+      cursor: pointer;
+      border-radius: 6px;
+      padding: 0;
+      display: inline-block;
+      vertical-align: middle;
     }
 
+    /* keep index settings-panel content & structure, but adopt OpenMe panel border & shadow */
     .settings-panel {
-      position:fixed; top:70px; right:20px;
-      background:#1a1a1a; border:1px solid rgba(var(--accent-rgb),0.14);
+      position:fixed; top:60px; right:20px;
+      background:#1a1a1a; border:1px solid var(--accent);
       border-radius:8px; padding:0.6rem; display:none;
-      z-index:110; box-shadow:0 0 18px rgba(var(--accent-rgb),0.10);
+      z-index:110; box-shadow:0 0 12px var(--accent);
       width:360px;
     }
 
     .settings-content { padding:0.75rem; max-height:520px; overflow:auto; }
 
-    /* settings panel scrollbar styled same as main */
     .settings-content {
       scrollbar-width: thin;
       scrollbar-color: var(--accent) transparent;
@@ -117,6 +111,7 @@
     }
     .btn.strong { background:var(--accent); color:#000; border:none; box-shadow:0 6px 18px rgba(var(--accent-rgb),0.08); }
 
+    /* --- Game grid & tile styles from index preserved --- */
     .game-grid {
       display:grid; grid-template-columns:repeat(auto-fill, minmax(280px,1fr));
       gap:1.5rem; padding:2rem; position:relative; z-index:5;
@@ -261,7 +256,6 @@
       display:inline-block;
     }
 
-    /* Connect toggle: remove glow, make solid accent color when ON */
     .checkbox {
       width:44px; height:22px; background:rgba(255,255,255,0.06);
       border-radius:12px; position:relative; cursor:pointer;
@@ -273,7 +267,6 @@
       background:#fff; border-radius:50%; transition:left .15s ease, transform .15s ease;
       box-shadow: 0 1px 3px rgba(0,0,0,0.45);
     }
-    /* ON state: solid accent background, no glow */
     .checkbox.on {
       background: var(--accent);
       border-color: rgba(0,0,0,0.08);
@@ -294,12 +287,14 @@
 <body>
   <canvas id="particleCanvas"></canvas>
 
+  <!-- NAVBAR (OpenMe look applied) -->
   <div class="navbar">
     <h1>Bike’s Site</h1>
     <input id="searchInput" class="search-bar" placeholder="Search by title…">
     <button id="settingsBtn" class="settings-btn" aria-label="Settings" title="Settings"></button>
   </div>
 
+  <!-- Settings panel (kept full-featured from index) -->
   <div id="settingsPanel" class="settings-panel" aria-hidden="true">
     <div class="settings-content">
       <!-- Appearance -->
@@ -328,7 +323,6 @@
             </div>
           </div>
 
-          <!-- Glow moved into Appearance -->
           <div class="control-row">
             <div class="control-label">Glow multiplier</div>
             <div class="control-input">
@@ -412,7 +406,7 @@
   <div id="gameGrid" class="game-grid"></div>
 
   <script>
-    // --- PARTICLE SYSTEM & SETTINGS (Glow to 10, connect toggle label + solid accent ON, removed on/off text) ---
+    // --- MERGED SCRIPT: index functionality preserved, navbar behavior/look updated to OpenMe ---
     const canvas = document.getElementById('particleCanvas'),
           ctx = canvas.getContext('2d');
 
@@ -507,9 +501,9 @@
       document.documentElement.style.setProperty('--glow-soft-alpha', (baseGlow.soft * s).toFixed(4));
     }
 
-    // Inline gear SVG fallback
+    // Inline gear SVG fallback (used if fetch background can't be set)
     const GEAR_SVG = `
-      <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
+      <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" style="width:20px;height:20px;">
         <path fill="currentColor" d="M19.14 12.94c.04-.31.06-.63.06-.94s-.02-.63-.06-.94l2.03-1.58a.5.5 0 0 0 .12-.64l-1.92-3.32a.5.5 0 0 0-.6-.22l-2.39.96a7.03 7.03 0 0 0-1.62-.94l-.36-2.54A.5.5 0 0 0 13.8 2h-3.6a.5.5 0 0 0-.49.42l-.36 2.54c-.58.24-1.12.56-1.62.94l-2.39-.96a.5.5 0 0 0-.6.22L2.71 8.88a.5.5 0 0 0 .12.64L4.86 11.1c-.04.31-.06.63-.06.94s.02.63.06.94L2.79 15.6a.5.5 0 0 0-.12.64l1.92 3.32c.13.22.39.31.6.22l2.39-.96c.5.38 1.04.7 1.62.94l.36 2.54c.05.26.27.42.49.42h3.6c.22 0 .44-.16.49-.42l.36-2.54c.58-.24 1.12-.56 1.62-.94l2.39.96c.22.09.48 0 .6-.22l1.92-3.32a.5.5 0 0 0-.12-.64l-2.03-1.58zM12 15.5A3.5 3.5 0 1 1 12 8.5a3.5 3.5 0 0 1 0 7z"/>
       </svg>
     `;
@@ -521,19 +515,19 @@
         if(!res.ok) throw new Error('not found');
         const txt = (await res.text()).trim();
         if(txt && txt.length > 24) {
-          const img = document.createElement('img');
-          img.src = 'data:image/png;base64,' + txt;
-          img.alt = 'Settings';
-          img.style.width = '28px';
-          img.style.height = '28px';
-          settingsBtn.innerHTML = '';
-          settingsBtn.appendChild(img);
+          // set as background-image (OpenMe approach)
+          settingsBtn.style.backgroundImage = `url(data:image/png;base64,${txt})`;
           return;
         }
       } catch (e) {
-        // fallback
+        // fallback below
       }
+      // fallback: use inline SVG icon inside button
       settingsBtn.innerHTML = GEAR_SVG;
+      settingsBtn.style.display = 'inline-flex';
+      settingsBtn.style.alignItems = 'center';
+      settingsBtn.style.justifyContent = 'center';
+      settingsBtn.style.backgroundImage = 'none';
     })();
 
     // Initialize accent + swatch visuals
@@ -566,7 +560,7 @@
     speedLabel.textContent = parseFloat(settings.speed);
     opacityLabel.textContent = parseFloat(settings.opacity);
 
-    // Glow init (max now 10)
+    // Glow init
     glowRange.max = 10;
     glowRange.value = settings.glowScale;
     glowLabel.textContent = parseFloat(settings.glowScale).toFixed(2);
@@ -863,7 +857,7 @@
       saveSettings();
     });
 
-    // toggles (connect) - simplified: toggle class + aria state, no glow text
+    // toggles (connect) - simplified: toggle class + aria state
     function toggleCheckboxEl(el) {
       const newState = !el.classList.contains('on');
       el.classList.toggle('on', newState);
@@ -909,7 +903,7 @@
     connectCheckbox.classList.toggle('on', !!settings.connect);
     connectCheckbox.setAttribute('aria-checked', String(!!settings.connect));
 
-    // --- tiles + series menu ---
+    // --- tiles + series menu (index functionality) ---
     const TILES_PATH='assets/tiles.txt',
           searchInput=document.getElementById('searchInput');
     let allGames=[];
@@ -973,9 +967,29 @@
       }
     }
 
+    // PREFIX-ONLY SEARCH (keeps the same quick prefix behavior)
     searchInput.addEventListener('input',e=>{
       const q=e.target.value.trim().toLowerCase();
       renderTiles(q ? allGames.filter(g=>g.title.toLowerCase().startsWith(q)) : allGames);
+    });
+
+    // Preserve saved accent across sessions similar to OpenMe: if a separate accent color was stored earlier
+    const savedAccent = localStorage.getItem('accentColor');
+    if(savedAccent){
+      settings.accentColor = savedAccent;
+      setAccentColor(savedAccent);
+      updateSwatch(savedAccent);
+      accentPicker.value = savedAccent;
+    }
+
+    // also keep a lightweight binding so the color picker in the header (if user uses it) will persist
+    accentPicker.addEventListener('change', e=>{
+      const v = e.target.value;
+      settings.accentColor = v;
+      setAccentColor(v);
+      updateSwatch(v);
+      localStorage.setItem('accentColor', v);
+      saveSettings();
     });
 
     loadTiles();
