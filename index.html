@@ -1,10 +1,9 @@
-```html
 <!DOCTYPE html>
 <html lang="en-us">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Bike’s Site — Navbar glow fixed + Warning popup</title>
+  <title>Bike’s Site — Navbar glow fixed</title>
   <style>
     :root {
       --accent: #00ffd0;
@@ -53,10 +52,12 @@
       padding:1rem 2rem; position:sticky; top:0;
       z-index:9999;
       backdrop-filter:blur(6px);
+      /* use computed glow color variables so slider affects this */
       box-shadow: 0 10px 30px var(--glow-medium), 0 0 32px var(--glow-soft);
     }
     .navbar h1 {
       font-size:1.5rem; color:var(--accent);
+      /* text glow driven by variable */
       text-shadow: 0 0 12px var(--glow-strong);
       margin:0;
     }
@@ -99,12 +100,15 @@
       transform-origin: top right;
       will-change: transform, opacity;
     }
+
+    /* show via aria-hidden so CSS animation works */
     .settings-panel[aria-hidden="false"] {
       display: block;
       animation: fadeInUp .18s ease both;
     }
 
     .settings-content { padding:0.75rem; max-height:520px; overflow:auto; }
+
     .settings-content {
       scrollbar-width: thin;
       scrollbar-color: var(--accent) transparent;
@@ -156,7 +160,9 @@
     .game-grid.list-view .game-content { padding:0; }
 
     @media (max-width:720px) {
-      .game-grid.list-view { grid-template-columns: 1fr; }
+      .game-grid.list-view {
+        grid-template-columns: 1fr;
+      }
       .game-grid.list-view .game-tile { flex-direction: column; padding:12px; }
       .game-grid.list-view .game-image { width:100%; height:auto; flex:0 0 auto; border-radius:12px; }
       .game-grid.list-view .game-content { padding-top:8px; }
@@ -174,6 +180,7 @@
     }
     .game-tile:hover {
       transform:translateY(-6px);
+      /* use glow variables for hover shadow so slider affects it */
       box-shadow: 0 20px 40px var(--glow-medium), 0 0 20px var(--glow-soft);
     }
     .game-image { width:100%; aspect-ratio:16/9; object-fit:cover; flex-shrink:0; }
@@ -293,111 +300,10 @@
       box-shadow: 0 0 0 4px rgba(var(--accent-rgb),0.06);
       border-radius:12px;
     }
-
-    /* --- WARNING POPUP --- */
-    .modal-overlay {
-      position: fixed;
-      inset: 0;
-      background: rgba(0,0,0,0.55);
-      backdrop-filter: blur(3px);
-      z-index: 30000;
-      display: none;
-    }
-    .modal-overlay[aria-hidden="false"] { display: block; }
-
-    .modal {
-      position: fixed;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      width: min(680px, 92vw);
-      background: linear-gradient(180deg, rgba(20,20,20,0.98), rgba(14,14,14,0.96));
-      border: 1px solid rgba(var(--accent-rgb), 0.28);
-      border-radius: 14px;
-      box-shadow: 0 20px 50px var(--glow-medium), 0 0 30px var(--glow-soft);
-      z-index: 30001;
-      padding: 18px 18px 14px 18px;
-      display: none;
-      animation: fadeInUp .18s ease both;
-    }
-    .modal[aria-hidden="false"] { display: block; }
-
-    .modal-header {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding-bottom: 8px;
-      border-bottom: 1px solid rgba(255,255,255,0.06);
-    }
-    .modal-title {
-      font-size: 2.2rem;
-      letter-spacing: 0.06em;
-      color: var(--accent);
-      text-shadow: 0 0 14px var(--glow-strong);
-      font-weight: 800;
-    }
-    .modal-body {
-      padding: 12px 2px 6px 2px;
-      color: #ddd;
-      line-height: 1.55;
-      font-size: 1rem;
-    }
-    .modal-body p {
-      margin-bottom: 8px;
-      color: #eee;
-      text-shadow: 0 0 8px var(--glow-soft);
-    }
-    .modal-actions {
-      display: flex;
-      align-items: center;
-      gap: .5rem;
-      padding-top: 10px;
-      border-top: 1px solid rgba(255,255,255,0.04);
-    }
-    .modal-actions .spacer { flex: 1; }
-
-    .inline-toggle {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      padding: 6px 8px;
-      border-radius: 10px;
-      background: rgba(255,255,255,0.02);
-      border: 1px solid rgba(255,255,255,0.03);
-    }
-    .inline-toggle .label {
-      font-size: .9rem;
-      color: #ccc;
-    }
-
-    @media (max-width: 520px) {
-      .modal-title { font-size: 1.8rem; }
-      .modal-body { font-size: .98rem; }
-    }
   </style>
 </head>
 <body>
   <canvas id="particleCanvas"></canvas>
-
-  <!-- WARNING POPUP -->
-  <div id="warningOverlay" class="modal-overlay" aria-hidden="true"></div>
-  <div id="warningModal" class="modal" role="dialog" aria-modal="true" aria-hidden="true" aria-labelledby="warningTitle">
-    <div class="modal-header">
-      <div id="warningTitle" class="modal-title">WARNING</div>
-      <button id="warningCloseX" class="btn" aria-label="Close warning">Close</button>
-    </div>
-    <div class="modal-body">
-      <p>I know the site has some broken games so don't tell me /" ahhhhhhhh game no workie/"</p>
-    </div>
-    <div class="modal-actions">
-      <div class="inline-toggle" id="hideWarningToggle" tabindex="0" aria-label="Don't show again toggle">
-        <div id="hideWarningCheckbox" class="checkbox" role="switch" aria-checked="false" tabindex="0" aria-label="Don't show again"><div class="knob"></div></div>
-        <div class="label">Don't show again</div>
-      </div>
-      <div class="spacer"></div>
-      <button id="warningOkBtn" class="btn strong">OK</button>
-    </div>
-  </div>
 
   <!-- NAVBAR -->
   <div class="navbar">
@@ -591,10 +497,13 @@
       document.documentElement.style.setProperty('--accent-rgb', `${r}, ${g}, ${b}`);
       const contrast = computeContrastForHex(colorHex);
       document.documentElement.style.setProperty('--accent-contrast', contrast);
+
+      // ensure glow variables reflect new accent color
       applyGlowScale(settings.glowScale);
     }
 
     function applyGlowScale(scale){
+      // clamp to safe range (0..3)
       const s = Math.min(3, Math.max(0, Number(scale) || 0));
       const [r,g,b] = hexToRgb(settings.accentColor || getComputedStyle(document.documentElement).getPropertyValue('--accent').trim());
       const aStrong = (baseGlow.strong * s);
@@ -609,6 +518,7 @@
       document.documentElement.style.setProperty('--glow-medium', `rgba(${r}, ${g}, ${b}, ${aMedium})`);
       document.documentElement.style.setProperty('--glow-soft', `rgba(${r}, ${g}, ${b}, ${aSoft})`);
 
+      // small derived variations (used for subtle differences)
       document.documentElement.style.setProperty('--glow-medium-90', `rgba(${r}, ${g}, ${b}, ${Math.max(0, aMedium * 0.9)})`);
       document.documentElement.style.setProperty('--glow-soft-200', `rgba(${r}, ${g}, ${b}, ${Math.min(1, aSoft * 2)})`);
     }
@@ -885,6 +795,7 @@
       settings.accentColor = v;
       updateSwatch(v);
       setAccentColor(v);
+      // ensure glow color reflects new accent
       applyGlowScale(settings.glowScale);
       saveSettings();
     });
@@ -1080,67 +991,6 @@
     });
 
     loadTiles();
-
-    // --- WARNING POPUP LOGIC ---
-    const warningOverlay = document.getElementById('warningOverlay');
-    const warningModal   = document.getElementById('warningModal');
-    const warningOkBtn   = document.getElementById('warningOkBtn');
-    const warningCloseX  = document.getElementById('warningCloseX');
-    const hideWarningCheckbox = document.getElementById('hideWarningCheckbox');
-    const hideWarningToggle   = document.getElementById('hideWarningToggle');
-
-    function showWarning() {
-      warningOverlay.setAttribute('aria-hidden','false');
-      warningModal.setAttribute('aria-hidden','false');
-    }
-    function hideWarning() {
-      warningOverlay.setAttribute('aria-hidden','true');
-      warningModal.setAttribute('aria-hidden','true');
-    }
-
-    // Initialize from storage
-    const hideWarningStored = localStorage.getItem('hideWarning') === 'true';
-    hideWarningCheckbox.classList.toggle('on', hideWarningStored);
-    hideWarningCheckbox.setAttribute('aria-checked', String(hideWarningStored));
-
-    if(!hideWarningStored) {
-      showWarning();
-    }
-
-    function toggleHideWarning() {
-      const newState = !hideWarningCheckbox.classList.contains('on');
-      hideWarningCheckbox.classList.toggle('on', newState);
-      hideWarningCheckbox.setAttribute('aria-checked', String(newState));
-      localStorage.setItem('hideWarning', String(newState));
-    }
-
-    hideWarningToggle.addEventListener('click', (e) => {
-      e.stopPropagation();
-      toggleHideWarning();
-    });
-    hideWarningToggle.addEventListener('keydown', (e) => {
-      if (e.key === 'Enter' || e.key === ' ') {
-        e.preventDefault();
-        toggleHideWarning();
-      }
-    });
-
-    warningOkBtn.addEventListener('click', (e) => {
-      e.stopPropagation();
-      hideWarning();
-    });
-    warningCloseX.addEventListener('click', (e) => {
-      e.stopPropagation();
-      hideWarning();
-    });
-
-    warningOverlay.addEventListener('click', () => hideWarning());
-    document.addEventListener('keydown', (e) => {
-      if (warningModal.getAttribute('aria-hidden') === 'false' && e.key === 'Escape') {
-        hideWarning();
-      }
-    });
   </script>
 </body>
 </html>
-```
