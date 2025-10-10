@@ -39,6 +39,12 @@
     "href": "assets/games/run3/index.html"
   },
   {
+    "title": "PvZ2G",
+    "info": "web assembly PvZ2",
+    "img": "assets/images/tugdogpablo.txt",
+    "href": "assets/games/pvz2g/index.html"
+  },
+  {
     "title": "Slope",
     "info": "ball go fast",
     "img": "assets/images/slope.txt",
