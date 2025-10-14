@@ -40,7 +40,7 @@
   },
   {
     "title": "PvZ2G",
-    "info": "web assembly PvZ2",
+    "info": "im pretty sure chromebooks cant run this so idk",
     "img": "assets/images/tugdogpablo.txt",
     "href": "assets/games/pvz2g/index.html"
   },
