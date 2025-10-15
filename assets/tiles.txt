@@ -39,19 +39,22 @@
     "href": "assets/games/run3/index.html"
   },
   {
-    "title": "PvZ2G",
-    "info": "im pretty sure chromebooks cant run this so idk",
-    "img": "assets/images/tugdogpablo.txt",
-    "href": "assets/games/pvz2g/index.html"
+    "title": "Retro Bowl",
+    "info": "feets ball",
+    "img": "assets/images/retro-bowl.txt",
+    "href": "assets/games/retro-bowl/index.html"
+  },
+  {
+    "title": "Hollow Knight",
+    "info": "testing a port flob found",
+    "img": "assets/images/bortushilk",
+    "href": "assets/games/hollow-knight/index.html"
   },
   {
     "title": "Slope",
-    "info": "ball go fast",
+    "info": "ball go fast (removed slope 3)",
     "img": "assets/images/slope.txt",
-    "series": [
-      { "title": "Slope", "href": "assets/games/Slope.html" },
-      { "title": "Slope 3", "href": "assets/games/slope3/outdex.html" }
-    ]
+    "href": "assets/games/Slope.html" },
   },
   {
     "title": "Rolling Sky v1.0",
@@ -103,16 +106,16 @@
     "href": "assets/games/balatro/index.html"
   },
   {
-    "title": "Retro Bowl",
-    "info": "feets ball",
-    "img": "assets/images/retro-bowl.txt",
-    "href": "assets/games/retro-bowl/index.html"
+    "title": Xash (Source Engine)",
+    "info": "web emulator for source 1",
+    "img": "assets/images/x.txt",
+    "href": "assets/games/xash/index.html"
   },
   {
     "title": "Endless Truck",
-    "info": "a little broken so...",
+    "info": "fixed??? idk tell me if not",
     "img": "assets/images/endless.txt",
-    "href": "assets/games/EndlessTruck-gh-pages/EndlessTruck-gh-pages/index.html"
+    "href": "assets/games/EndlessTruck/index.html"
   },
   {
     "title": "Ultrakill – Demo",
@@ -149,6 +152,12 @@
     "info": "idfk why this is even here",
     "img": "assets/images/xx142-b2exe.txt",
     "href": "assets/games/xx142-b2exe/index.html"
+  },
+  {
+    "title": "PvZ2G",
+    "info": "im pretty sure chromebooks can't run this so idk",
+    "img": "assets/images/tugdogpablo.txt",
+    "href": "assets/games/pvz2g/index.html"
   },
   {
     "title": "Hextris",
