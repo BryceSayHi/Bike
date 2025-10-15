@@ -47,7 +47,7 @@
   {
     "title": "Hollow Knight",
     "info": "testing a port flob found",
-    "img": "assets/images/bortushilk",
+    "img": "assets/images/bortushilk.txt",
     "href": "assets/games/hollow-knight/index.html"
   },
   {
@@ -106,7 +106,7 @@
     "href": "assets/games/balatro/index.html"
   },
   {
-    "title": Xash (Source Engine)",
+    "title": "Xash (Source Engine)",
     "info": "web emulator for source 1",
     "img": "assets/images/x.txt",
     "href": "assets/games/xash/index.html"
