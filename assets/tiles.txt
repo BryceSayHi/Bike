@@ -51,6 +51,17 @@
     "href": "assets/games/hollow-knight/index.html"
   },
   {
+    "title": "Fireboy & Watergirl",
+    "info": "element",
+    "img": "assets/images/gelsky.txt",
+    "series": [
+      { "title": "Fireboy & Watergirl", "href": "assets/games/firewater/Fireboy&Watergirl" },
+      { "title": "Fireboy & Watergirl 2", "href": "assets/games/firewater/Fireboy&Watergirl2" },
+      { "title": "Fireboy & Watergirl 3", "href": "assets/games/firewater/Fireboy&Watergirl3" },
+      { "title": "Fireboy & Watergirl 4", "href": "assets/games/firewater/Fireboy&Watergirl4" }
+    ]
+  },
+  {
     "title": "Slope",
     "info": "ball go fast (removed slope 3)",
     "img": "assets/images/slope.txt",
@@ -71,8 +82,7 @@
       { "title": "Vex 4", "href": "assets/games/vex4/game.html" },
       { "title": "Vex 5", "href": "assets/games/vex5/game.html" },
       { "title": "Vex 6", "href": "assets/games/vex6/game.html" },
-      { "title": "Vex 7", "href": "assets/games/vex7/game.html" },
-      { "title": "Vex 8", "href": "assets/games/vex8/game.html" }
+      { "title": "Vex 7", "href": "assets/games/vex7/game.html" }
     ]
   },
   {
