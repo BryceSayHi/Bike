@@ -54,7 +54,7 @@
     "title": "Slope",
     "info": "ball go fast (removed slope 3)",
     "img": "assets/images/slope.txt",
-    "href": "assets/games/Slope.html" },
+    "href": "assets/games/Slope.html"
   },
   {
     "title": "Rolling Sky v1.0",
