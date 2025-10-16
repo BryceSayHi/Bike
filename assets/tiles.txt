@@ -116,12 +116,6 @@
     "href": "assets/games/balatro/index.html"
   },
   {
-    "title": "Xash (Source Engine)",
-    "info": "web emulator for source 1",
-    "img": "assets/images/x.txt",
-    "href": "assets/games/xash/index.html"
-  },
-  {
     "title": "Endless Truck",
     "info": "fixed??? idk tell me if not",
     "img": "assets/images/endless.txt",
@@ -149,7 +143,7 @@
     "title": "Monkey Mart",
     "info": "roblox tycoon ahh game",
     "img": "assets/images/monkeymart.txt",
-    "href": "assets/games/MonkeyMart.html"
+    "href": "assets/games/MonkeyMart/index.html"
   },
   {
     "title": "Bloxorz",
