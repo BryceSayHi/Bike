@@ -51,6 +51,12 @@
     "href": "assets/games/hollow-knight/index.html"
   },
   {
+    "title": "Tomb of the Mask",
+    "info": "idk its a mobile game",
+    "img": "assets/images/david.txt",
+    "href": "assets/games/TombOfTheMask/game.html"
+  },
+  {
     "title": "Fireboy & Watergirl",
     "info": "element",
     "img": "assets/images/gelsky.txt",
@@ -258,11 +264,5 @@
     "info": "fish",
     "img": "assets/images/hsif.txt",
     "href": "assets/games/TinyFishing/index.html"
-  },
-  {
-    "title": "Tomb of the Mask",
-    "info": "idk its a mobile game",
-    "img": "assets/images/david.txt",
-    "href": "assets/games/TombOfTheMask/game.html"
   }
 ]
