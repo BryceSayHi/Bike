@@ -1,13 +1,13 @@
 ﻿[
   {
-    "title": "Eaglercraft 1.12.2",
-    "info": "the newest version of eaglercraft i could find",
+    "title": "Eaglercraft 1.12.2 WASM",
+    "info": "brycesayhi.net:6767 is the server ip",
     "img": "assets/images/eaglercraftx.txt",
     "href": "assets/games/EaglercraftX/EaglercraftX-Client-main/index.html"
   },
   {
     "title": "Cookie Clicker",
-    "info": "click",
+    "info": "click (i updated it)",
     "img": "assets/images/order_not_the_rat.txt",
     "href": "assets/games/COOKIR CLAK/ORDER NOT THE RAT/index.html"
   },
@@ -24,17 +24,14 @@
     ]
   },
   {
-    "title": "Sonic",
-    "info": "ok die",
-    "img": "assets/images/ugly.txt",
-    "series": [
-      { "title": "Sonic 1", "href": "assets/games/sonic1/index.html" },
-      { "title": "Sonic 2", "href": "assets/games/sonic2/index.html" }
-    ]
+    "title": "Ultrakill Prelude",
+    "info": "a fixed unity web gl port of ultrakill",
+    "img": "assets/images/ultrakill.txt",
+    "href": "assets/games/ultrakill/index.html"
   },
   {
-    "title": "Run 3",
-    "info": "jog",
+    "title": "Run 3 (borked i think)",
+    "info": "brochacho",
     "img": "assets/images/run3.txt",
     "href": "assets/games/run3/index.html"
   },
@@ -46,7 +43,7 @@
   },
   {
     "title": "Hollow Knight",
-    "info": "testing a port flob found",
+    "info": "shaw",
     "img": "assets/images/bortushilk.txt",
     "href": "assets/games/hollow-knight/index.html"
   },
@@ -55,6 +52,12 @@
     "info": "idk its a mobile game",
     "img": "assets/images/david.txt",
     "href": "assets/games/TombOfTheMask/game.html"
+  },
+    {
+    "title": "Stickman Hook",
+    "info": "hook",
+    "img": "assets/images/ploob.txt",
+    "href": "assets/games/StickmanHook/index.html"
   },
   {
     "title": "Fireboy & Watergirl",
@@ -69,15 +72,9 @@
   },
   {
     "title": "Slope",
-    "info": "ball go fast (removed slope 3)",
+    "info": "ball go",
     "img": "assets/images/slope.txt",
     "href": "assets/games/Slope.html"
-  },
-  {
-    "title": "Rolling Sky v1.0",
-    "info": "holy fucking shit this took a while to port",
-    "img": "assets/images/birth.txt",
-    "href": "assets/games/birth/index.html"
   },
   {
     "title": "Vex",
@@ -92,6 +89,12 @@
     ]
   },
   {
+    "title": "Super Mario 64",
+    "info": "web port of mario 64, binds are \"enter, z, x\"",
+    "img": "assets/images/hubert.txt",
+    "href": "assets/games/SuperMario64/index.html"
+  },
+  {
     "title": "Moto X3M",
     "info": "bike game",
     "img": "assets/images/moto-x3m.txt",
@@ -104,10 +107,13 @@
     ]
   },
   {
-    "title": "Undertale",
-    "info": "big house",
-    "img": "assets/images/reekingdog.txt",
-    "href": "assets/games/undertale/index.html"
+    "title": "Sonic",
+    "info": "ok die",
+    "img": "assets/images/ugly.txt",
+    "series": [
+      { "title": "Sonic 1", "href": "assets/games/sonic1/index.html" },
+      { "title": "Sonic 2", "href": "assets/games/sonic2/index.html" }
+    ]
   },
   {
     "title": "Drift Boss",
@@ -120,18 +126,6 @@
     "info": "poker with extra steps",
     "img": "assets/images/balatro.txt",
     "href": "assets/games/balatro/index.html"
-  },
-  {
-    "title": "Endless Truck",
-    "info": "fixed??? idk tell me if not",
-    "img": "assets/images/endless.txt",
-    "href": "assets/games/EndlessTruck/index.html"
-  },
-  {
-    "title": "Ultrakill – Demo",
-    "info": "a broken unity web gl port of ultrakill",
-    "img": "assets/images/ultrakill.txt",
-    "href": "assets/games/ultrakill/index.html"
   },
   {
     "title": "PolyTrack",
@@ -164,12 +158,6 @@
     "href": "assets/games/xx142-b2exe/index.html"
   },
   {
-    "title": "PvZ2G",
-    "info": "im pretty sure chromebooks can't run this so idk",
-    "img": "assets/images/tugdogpablo.txt",
-    "href": "assets/games/pvz2g/index.html"
-  },
-  {
     "title": "Hextris",
     "info": "kinda cool thing ig",
     "img": "assets/images/hextris.txt",
@@ -181,6 +169,12 @@
     "img": "assets/images/joey.txt",
     "href": "assets/games/AdventureCapitalist/index.html"
   },
+    {
+    "title": "Rolling Sky v1.0",
+    "info": "holy fucking shit this took a while to port",
+    "img": "assets/images/birth.txt",
+    "href": "assets/games/birth/index.html"
+  },
   {
     "title": "Basketball Legends 2020",
     "info": "lebron",
@@ -189,7 +183,7 @@
   },
   {
     "title": "Burrito Bison",
-    "info": "gummy bear🥀🥀🥀",
+    "info": "gummy bear",
     "img": "assets/images/bison.txt",
     "href": "assets/games/BurritoBison/index.html"
   },
@@ -212,12 +206,6 @@
     "href": "assets/games/DriftHunters/index.html"
   },
   {
-    "title": "Eagle Ride",
-    "info": "this game gave me aids",
-    "img": "assets/images/birdie.txt",
-    "href": "assets/games/EagleRide/index.html"
-  },
-  {
     "title": "Eggy Car",
     "info": "egg game",
     "img": "assets/images/eggy.txt",
@@ -236,12 +224,6 @@
     "href": "assets/games/GunSpin/index.html"
   },
   {
-    "title": "Stickman Hook",
-    "info": "hook",
-    "img": "assets/images/ploob.txt",
-    "href": "assets/games/StickmanHook/index.html"
-  },
-  {
     "title": "Stick Merge",
     "info": "merge gun",
     "img": "assets/images/t-lube.txt",
@@ -252,12 +234,6 @@
     "info": "globble",
     "img": "assets/images/steezus.txt",
     "href": "assets/games/SubwaySurfers/index.html"
-  },
-  {
-    "title": "Super Mario 64",
-    "info": "web port of mario 64, binds are \"enter, z, x\"",
-    "img": "assets/images/hubert.txt",
-    "href": "assets/games/SuperMario64/index.html"
   },
   {
     "title": "Tiny Fishing",
