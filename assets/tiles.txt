@@ -1,7 +1,7 @@
 ﻿[
   {
     "title": "Eaglercraft 1.12.2 WASM",
-    "info": "brycesayhi.net:6767 is the server ip",
+    "info": "brycesayhi.net:6767 is the server ip (Edit: i removed the countdown thingie)",
     "img": "assets/images/eaglercraftx.txt",
     "href": "assets/games/EaglercraftX/EaglercraftX-Client-main/index.html"
   },
