@@ -1,7 +1,7 @@
 ﻿[
   {
     "title": "Eaglercraft 1.12.2 WASM",
-    "info": "brycesayhi.net:6767 is the server ip (Edit: i removed the countdown thingie)",
+    "info": "server ip is brycesayhi.net",
     "img": "assets/images/eaglercraftx.txt",
     "href": "assets/games/EaglercraftX/EaglercraftX-Client-main/index.html"
   },
@@ -28,12 +28,6 @@
     "info": "a fixed unity web gl port of ultrakill",
     "img": "assets/images/ultrakill.txt",
     "href": "assets/games/ultrakill/index.html"
-  },
-  {
-    "title": "Run 3 (borked i think)",
-    "info": "brochacho",
-    "img": "assets/images/run3.txt",
-    "href": "assets/games/run3/index.html"
   },
   {
     "title": "Retro Bowl",
@@ -141,9 +135,21 @@
   },
   {
     "title": "Monkey Mart",
-    "info": "roblox tycoon ahh game",
+    "info": "roblox tycoon",
     "img": "assets/images/monkeymart.txt",
     "href": "assets/games/MonkeyMart/index.html"
+  },
+  {
+    "title": "Tunnel Rush",
+    "info": "waterframes",
+    "img": "assets/images/ericspiess.txt",
+    "href": "assets/games/tunrush/index.html"
+  },
+  {
+    "title": "Eagle Ride",
+    "info": "aids the game",
+    "img": "assets/images/birdie.txt",
+    "href": "assets/games/EagleRide/index.html"
   },
   {
     "title": "Bloxorz",
