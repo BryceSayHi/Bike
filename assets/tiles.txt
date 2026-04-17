@@ -1,9 +1,12 @@
 ﻿[
   {
-    "title": "Eaglercraft 1.12.2 WASM",
-    "info": "server ip is brycesayhi.net",
+    "title": "Eaglercraft",
+    "info": "server ip is brycesayhi.net for 1.12.2 WASM",
     "img": "assets/images/eaglercraftx.txt",
-    "href": "assets/games/EaglercraftX/EaglercraftX-Client-main/index.html"
+    "series": [
+      { "title": "1.12.2 WASM", "href": "assets/games/EaglercraftX/EaglercraftX-Client-main/index.html" },
+      { "title": "1.6.4 Modpack", "href": "assets/games/EaglercraftX/EaglercraftX-Client-main/tuba.html" }
+    ]
   },
   {
     "title": "Cookie Clicker",
@@ -40,6 +43,12 @@
     "info": "shaw",
     "img": "assets/images/bortushilk.txt",
     "href": "assets/games/hollow-knight/index.html"
+  },
+  {
+    "title": "PvZ 1",
+    "info": "plant",
+    "img": "assets/images/pig.txt",
+    "href": "assets/games/pvz/index.html"
   },
   {
     "title": "Tomb of the Mask",
